@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
   });
 });
 
-app.use('/root', routes);
+app.use('/root/', routes);
 
 function start(port) {
   app.listen(port, () => {
