@@ -1,8 +1,13 @@
 /* eslint-disable */
-const { Sequelize , DataTypes} = require('sequelize');
-const Users = require('./users.model')
+const { Sequelize, DataTypes } = require("sequelize");
 
-var config
+
+const Users = require("./users.model");
+const Videos = require("./videos.model");
+const Courses = require("./courses.model");
+const Comments = require("./comments.model");
+
+var config;
 if (process.env.DATABASE_URL) {
   config = {
     logging: false,
@@ -10,26 +15,28 @@ if (process.env.DATABASE_URL) {
     dialectOptions: {
       ssl: {
         require: true,
-        rejectUnauthorized: false
-      }
-    }
-  }
+        rejectUnauthorized: false,
+      },
+    },
+  };
 } else {
   config = {
-    logging: false
-  }
+    logging: false,
+  };
 }
 const db = new Sequelize(
-    process.env.DATABASE_URL ||
-    'postgres://postgres:1234@127.0.0.1:5432/edu',
-    config 
-  )
+  process.env.DATABASE_URL || "postgres://postgres:1234@127.0.0.1:5432/edu",
+  config
+);
 
-  const UsersDB = Users(db, DataTypes);
+const UsersDB = Users(db, DataTypes);
+const VideosDB = Videos(db, DataTypes);
+const CoursesDB = Courses(db, DataTypes);
+const CommentDB = Comments(db, DataTypes);
 
-
-module.exports ={
-    db : db,
-    UsersDB
-   
-}
+module.exports = {
+  db,
+  UsersDB,
+  VideosDB,
+  CoursesDB,
+};
