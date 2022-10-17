@@ -10,6 +10,8 @@ router.get('/',(req,res)=>{
     })
 } );
 router.use('/getallvideos',__getAllVideos );
+// router.use('/addVideo',__getAllVideos );
+router.use('/deleteVideo',__getAllVideos );
 
 
 
