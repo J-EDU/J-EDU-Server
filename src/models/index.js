@@ -42,4 +42,5 @@ module.exports = {
   UsersDB,
   VideosDB,
   CoursesDB,
+  CommentDB
 };
