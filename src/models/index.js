@@ -24,11 +24,12 @@ if (process.env.DATABASE_URL) {
     logging: false,
   };
 }
-const db = new Sequelize(
 
-process.env.DATABASE_URL ||
-'postgres://bayan:123456@127.0.0.1:5432/postgres',
-config 
+// bayan URL = 'postgres://bayan:123456@127.0.0.1:5432/postgres' 
+
+const db = new Sequelize(
+process.env.DATABASE_URL || "postgres://postgres:1234@127.0.0.1:5432/edu",
+config
 )
 
 

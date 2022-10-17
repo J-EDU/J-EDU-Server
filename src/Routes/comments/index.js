@@ -1,3 +1,6 @@
+/* eslint-disable */
+
+
 const express = require('express');
 const __getAllComments = require("./__getAllComments");
 const __deleteComment = require("./__deleteComment");

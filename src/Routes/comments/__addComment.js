@@ -1,3 +1,4 @@
+/* eslint-disable*/
 const express = require('express');
 const {  CommentDB } = require('../../models');
 const router = express.Router();

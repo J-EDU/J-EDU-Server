@@ -1,6 +1,7 @@
+/*eslint-disable */
 const express = require('express');
 const __getAllCourses = require("./__getAllCourses");
-const __deleteCourse = require("./__deleteCourse");
+const __deleteCourse = require("./__deletecourse");
 const __addCourse= require("./__addCourse");
 
 
@@ -13,7 +14,7 @@ router.get('/',(req,res)=>{
     })
 } );
 router.use('/getCourse',__getAllCourses );
-router.use('/deleteComment',__deleteCourse );
+router.use('/deletecourse',__deleteCourse );
 router.use('/addCourse',__addCourse);
 
 
