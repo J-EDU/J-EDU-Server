@@ -4,6 +4,7 @@ const express = require('express');
 const router = express.Router();
 
 const users = require("./users")
+const videos = require("./videos")
 
 router.get('/', (req, res) => {
   res.json({
@@ -12,5 +13,6 @@ router.get('/', (req, res) => {
 });
 
 router.use('/user',users );
+router.use('/video',videos );
 
 module.exports = router;
