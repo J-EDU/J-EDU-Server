@@ -1,7 +1,7 @@
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
-const fileUpload = require('express-fileupload');
+const fileUpload = require("express-fileupload")
 
 require('dotenv').config();
 
@@ -17,14 +17,9 @@ app.use(fileUpload({
   useTempFiles: true,
   limits: { fileSize: 50 * 2024 * 1024 },
 }));
-
-app.get('/', (req, res) => {
-  res.json({
-    message: 'Home',
-  });
-});
-
+  
 app.use('/root/', routes);
+
 
 function start(port) {
   app.listen(port, () => {
