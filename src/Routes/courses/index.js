@@ -3,6 +3,7 @@ const express = require('express');
 const __getAllCourses = require("./__getAllCourses");
 const __deleteCourse = require("./__deletecourse");
 const __addCourse= require("./__addCourse");
+const __updateCourse= require("./__updateCourse");
 
 
 
@@ -16,6 +17,7 @@ router.get('/',(req,res)=>{
 router.use('/getCourse',__getAllCourses );
 router.use('/deletecourse',__deleteCourse );
 router.use('/addCourse',__addCourse);
+router.use('/updateCourse',__updateCourse);
 
 
 

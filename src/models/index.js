@@ -25,10 +25,8 @@ if (process.env.DATABASE_URL) {
   };
 }
 
-// bayan URL = 'postgres://bayan:123456@127.0.0.1:5432/postgres' 
-
 const db = new Sequelize(
-process.env.DATABASE_URL || "postgres://postgres:1234@127.0.0.1:5432/edu",
+process.env.DATABASE_URL || 'postgres://postgres:1234@127.0.0.1:5432/edu',
 config
 )
 
@@ -37,6 +35,17 @@ const UsersDB = Users(db, DataTypes);
 const VideosDB = Videos(db, DataTypes);
 const CoursesDB = Courses(db, DataTypes);
 const CommentDB = Comments(db, DataTypes);
+
+
+// RelationShip
+
+UsersDB.hasMany(CommentDB,{
+  foreignKey: 'userID' 
+});
+CommentDB.belongsTo(UsersDB,{
+  foreignKey: 'userID' 
+});
+
 
 module.exports = {
   db,

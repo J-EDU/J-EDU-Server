@@ -4,18 +4,23 @@ const {  CommentDB } = require('../../models');
 const router = express.Router();
 
 
-
 router.post('/',async (req, res,next) =>{
-    try {
-      
+    
+  try {
       const commentData = {
-        id: req.body.id,
-        text: req.body.text,
         
+        userID: req.user.id,
+        text: req.body.text,
       }
-      let createdComment = await CommentDB.create(commentData);
-      res.status(201).json(createdComment);
+      try {
+        let createdComment = await CommentDB.create(commentData);
+        res.status(201).json(createdComment);
+      } catch (error) {
+        res.status(404).json({msg:error.parent.detail});
+        console.log("Catch", error)
+      }
     } catch (err) {
+      console.log("Hassan ~ err", err)
       next(`Error inside addComment function : ${err}`);
     }
   });
