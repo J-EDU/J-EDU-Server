@@ -19,4 +19,5 @@ router.use('/video',videos );
 router.use('/comment',comments)
 router.use('/course',course)
 
+
 module.exports = router;
