@@ -17,5 +17,5 @@ router.get('/',async (req, res,bayan) => {
     }
 });
 
-
 module.exports = router;
+

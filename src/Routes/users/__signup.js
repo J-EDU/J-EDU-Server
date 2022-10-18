@@ -2,13 +2,13 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const { UsersDB,TeacherDB } = require('../../models');
-
 const router = express.Router();
 
 router.post('/', async (req, res, next) => {
     const {email,password,role} = req.body;
+
     const hashedPassword = await bcrypt.hash(password, 10);
-    
+   
     try {
 
         const user =await UsersDB.findOne({ where: { email } });
@@ -25,6 +25,7 @@ router.post('/', async (req, res, next) => {
       next({message:`Error happend in Singup ${error}`})
     }
 });
+
 
 
 module.exports = router;
