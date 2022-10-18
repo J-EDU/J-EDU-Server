@@ -6,10 +6,14 @@ const ___isTeacher = require('./__isTeacher');
 
 const router = express.Router();
 
-router.get('/',___isAuth,___isTeacher,async (req, res,next) => {
+router.get('/',___isAuth,async (req, res,next) => {
 
     try {
-      const users = await UsersDB.findAll();
+      const users = await UsersDB.findAll({
+        where: {
+          role: "teacher"
+        }
+      });
       const usersData= users.map((item,idx)=>{
         return {
           id : item.id,
@@ -22,7 +26,7 @@ router.get('/',___isAuth,___isTeacher,async (req, res,next) => {
         }
       })
       res.users = usersData;
-      res.status(200).json({usersData});
+      res.status(200).json({teachers:res.users});
       return;
     } catch (error) {
       next({message:`Error happend in getAllTeachers${error}`})
