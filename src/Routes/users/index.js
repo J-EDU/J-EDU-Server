@@ -3,6 +3,8 @@ const express = require('express');
 const __getAllUser = require("./__getAllUsers")
 const __signup = require("./__signup")
 const __login = require("./__login")
+const __updateUser = require("./__updateUser")
+const __getAllStudent = require("./__getAllStudent")
 
 const __getAllTeachers= require("./__getAllTeachers")
 
@@ -24,6 +26,8 @@ router.get('/',(req,res)=>{
 router.use('/getusers',__isBlocked ,___isAuth,__getAllUser );
 router.use('/signup',__signup );
 router.use('/login',__isBlocked,__login );
+router.use('/getAllStudent',__getAllStudent );
+router.use('/updateUser',__updateUser );
 router.use('/getAllTeachers',___isAuth,___isTeacher,__getAllTeachers);
 router.use('/getAllBlocked',__getallBlocked);
 

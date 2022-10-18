@@ -3,6 +3,7 @@ const JWT = require("jsonwebtoken");
 const { UsersDB } = require("../../models");
 
 const ___isAuth = async (req, res, next) => {
+
   const type = req.headers.authorization.split(" ")[0];
   if(type == "Basic"){
     res.send("no Valid")
@@ -26,8 +27,10 @@ const ___isAuth = async (req, res, next) => {
   } catch (error) {
     next({ message: `the Token is incorrect || Expired ${error}` });
   }
+
 };
 
 
 
 module.exports = ___isAuth;
+

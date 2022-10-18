@@ -22,4 +22,5 @@ router.use('/video',__isBlocked ,___isAuth,videos );
 router.use('/comment',__isBlocked ,___isAuth,comments)
 router.use('/course',__isBlocked ,___isAuth,course)
 
+
 module.exports = router;
