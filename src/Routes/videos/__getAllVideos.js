@@ -1,8 +1,7 @@
 /* eslint-disable*/
 const express = require('express');
 const {  VideosDB } = require('../../models');
-const ___isAuth = require('../users/__isAuth');
-const ___isAdmin = require('../users/__isAdmin');
+
 
 const router = express.Router();
 
@@ -18,5 +17,5 @@ router.get('/',async (req, res,bayan) => {
     }
 });
 
-
 module.exports = router;
+
