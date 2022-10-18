@@ -38,6 +38,17 @@ const VideosDB = Videos(db, DataTypes);
 const CoursesDB = Courses(db, DataTypes);
 const CommentDB = Comments(db, DataTypes);
 
+
+// RelationShip
+
+UsersDB.hasMany(CommentDB,{
+  foreignKey: 'userID' 
+});
+CommentDB.belongsTo(UsersDB,{
+  foreignKey: 'userID' 
+});
+
+
 module.exports = {
   db,
   UsersDB,
