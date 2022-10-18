@@ -2,7 +2,7 @@
 
 const VideosModel = (sequelize, DataTypes) =>
   sequelize.define(
-    "videosTable",
+    "videos",
     {
       id: {
         type: DataTypes.UUID,

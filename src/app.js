@@ -2,7 +2,6 @@ const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
 const fileUpload = require('express-fileupload');
-const bodyParser = require('body-parser');
 
 require('dotenv').config();
 
@@ -18,8 +17,6 @@ app.use(fileUpload({
   useTempFiles: true,
   limits: { fileSize: 50 * 2024 * 1024 },
 }));
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 
 app.use('/root/', routes);
 
