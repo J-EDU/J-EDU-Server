@@ -15,10 +15,6 @@ async function uplaodVideo(req, res,next){
             api_key: process.env.API_KEY, 
             api_secret:process.env.API_SECRET 
           });
-          var file= req.files
-          
-          res.json({file})
-
 
           if(req.files.image){
               const result = await cloudinary.uploader.upload(req.files.image.tempFilePath,{
@@ -27,6 +23,7 @@ async function uplaodVideo(req, res,next){
                   folder: "images"
               })
               res.json(result.url);
+              return;
               
           }   
           if(req.files.video){
@@ -36,10 +33,10 @@ async function uplaodVideo(req, res,next){
                 folder: "videos"
             })
             res.json(result.url);
+            return;
           } 
 
     } catch (err) {
-      console.log("Hassan ~ err", err)
       next(`Error inside addVideo function : ${err}`);
     }
   }
