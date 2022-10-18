@@ -2,6 +2,7 @@
 const express = require('express');
 const { VideosDB } = require('../../models');
 const cloudinary = require('cloudinary').v2;
+const fs = require('fs');
 
 const router = express.Router();
 
@@ -14,7 +15,10 @@ async function uplaodVideo(req, res,next){
             api_key: process.env.API_KEY, 
             api_secret:process.env.API_SECRET 
           });
-    
+          var file= req.files
+          
+          res.json({file})
+
 
           if(req.files.image){
               const result = await cloudinary.uploader.upload(req.files.image.tempFilePath,{
