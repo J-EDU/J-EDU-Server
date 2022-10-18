@@ -5,6 +5,7 @@ const express = require('express');
 const __getAllComments = require("./__getAllComments");
 const __deleteComment = require("./__deleteComment");
 const __addComment= require("./__addComment");
+const __updateComment = require("./__updateComment");
 
 
 
@@ -18,6 +19,7 @@ router.get('/',(req,res)=>{
 router.use('/getComment',__getAllComments );
 router.use('/deleteComment',__deleteComment );
 router.use('/addComment',__addComment );
+router.use('/updateComment',__updateComment );
 
 
 

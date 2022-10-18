@@ -2,12 +2,19 @@
 
 const CommentModel = (sequelize, DataTypes) =>
   sequelize.define(
-    "commentsTable",
+    "comments",
     {
       id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
+      },
+      userID: {
+        type: DataTypes.UUID,
+        references: {
+          model: "users",
+          key: "id",
+        },
       },
       text: {
         type: DataTypes.STRING,
