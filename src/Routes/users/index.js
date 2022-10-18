@@ -8,6 +8,8 @@ const __updateUser = require("./__updateUser")
 const __getAllStudent = require("./__getAllStudent")
 const __getAllTeachers= require("./__getAllTeachers")
 const __getallBlocked = require("./__getallBlocked")
+
+const  __checkRegx  = require('./__checkRegx');
 const __isBlocked = require('./__isBlocked');
 const ___isAdmin = require('./__isAdmin');
 const ___isAuth = require('./__isAuth');
@@ -23,14 +25,14 @@ router.get('/',(req,res)=>{
     })
 } );
 
-router.use('/updatepassword',__updatePassword );
 router.use('/getusers',__isBlocked ,___isAuth,__getAllUser );
-router.use('/signup',__signup );
+router.use('/signup',__checkRegx,__signup );
 router.use('/login',__isBlocked,__login );
 router.use('/getAllStudent',__getAllStudent );
-router.use('/updateUser',__updateUser );
+router.use('/updateUser',__isBlocked ,___isAuth,__updateUser );
 router.use('/getAllTeachers',___isAuth,___isTeacher,__getAllTeachers);
 router.use('/getAllBlocked',__getallBlocked);
+router.use('/updatepassword',__updatePassword );
 
 
 

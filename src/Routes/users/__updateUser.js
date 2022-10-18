@@ -1,12 +1,13 @@
+/*eslint-disable */
 const express = require("express");
 const {  UsersDB } = require('../../models');
 
 const router = express.Router();
 
 
-router.put('/:id',async (req, res,next) => {
+router.put('/',async (req, res,next) => {
 	try {
-		let id = req.params.id;
+		let id = req.user.id;
 		let newUserData = req.body;  
 		await UsersDB.update(newUserData, { where: { id } });
 		let updatedUser = await UsersDB.findOne({ where: { id } });
