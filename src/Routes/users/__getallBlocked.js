@@ -1,27 +1,24 @@
 /* eslint-disable*/
 const express = require('express');
 const { UsersDB } = require('../../models');
-const __isBlocked = require("./__blockedList")
+const __isBlocked = require("./__isBlocked")
 
 
 const router = express.Router();
 
-router.get('/',__isBlocked ,async (req, res,next) => {
+router.get('/',async (req, res,next) => {
 
     try {
-      const users = await UsersDB.findAll();
-      const usersData= users.map((item,idx)=>{
-        return {
-          
-          isBlocked : item.isBlocked
-         
+      const users = await UsersDB.findAll({
+        where: {
+          isBLocked: true
         }
-      })
-      res.users = usersData;
-      res.status(200).json({usersData});
+      });
+      res.users = users;
+      res.status(200).json({users});
       return;
     } catch (error) {
-      next({message:`Error happend in getAllusers ${error}`})
+      next({message:`Error happend in getAllBlocked ${error}`})
     }
 });
 

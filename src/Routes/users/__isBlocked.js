@@ -1,0 +1,55 @@
+/* eslint-disable*/
+const JWT = require("jsonwebtoken");
+const { UsersDB } = require("../../models");
+const bcrypt = require("bcrypt");
+const base = require("base-64");
+
+
+const __isBlocked = async (req, res, next) => {
+  const type = req.headers.authorization.split(" ")[0];
+  const auth = req.headers.authorization.split(" ")[1];
+  let email ;
+  if(type == "Bearer"){
+    try {
+      email = JWT.verify(auth, process.env.JWT_SECRET_KEY);
+      email = email.email
+      
+    } catch (error) {
+        res.status(409).json({ messgae: "Token is Expired or is not correct" });
+        return;
+      }
+
+    }else{
+    console.log("Hassan ~ type", "Basic")
+    const userinfo = base.decode(auth).split(":");
+   email = userinfo[0];
+  }
+  
+if(email){
+  try {
+  
+          const user = await UsersDB.findOne({ where: { email} });
+          if (user) {
+            if(!user.isBlocked ){
+                req.user = user;
+                next();
+            }else{
+                res.status(409).json({ messgae: "You'ar blocked user " });
+                return;    
+            }
+          } else {
+            res.status(409).json({ messgae: "User Not Found" });
+            return;
+          }
+      
+      } catch (error) {
+        res.status(409).json({ messgae: "DB is notWokrin" });
+
+      }
+
+}
+
+
+};
+
+module.exports = __isBlocked;

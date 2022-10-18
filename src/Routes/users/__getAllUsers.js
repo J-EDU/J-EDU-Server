@@ -6,7 +6,7 @@ const ___isAdmin = require("./__isAdmin");
 
 const router = express.Router();
 
-router.get("/", ___isAuth, async (req, res, bayan) => {
+router.get("/", async (req, res, bayan) => {
   try {
     const users = await UsersDB.findAll({
       include: [

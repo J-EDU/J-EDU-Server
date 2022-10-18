@@ -8,7 +8,8 @@ router.post('/',async (req, res,next) =>{
     
   try {
       const commentData = {
-        userID: req.body.userID,
+        
+        userID: req.user.id,
         text: req.body.text,
       }
       try {
