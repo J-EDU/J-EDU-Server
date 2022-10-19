@@ -42,7 +42,8 @@ const CoursesDB = Courses(db, DataTypes);
 
 // User One-to-Many comments
 UsersDB.hasMany(CommentDB,{
-  foreignKey: 'userID' 
+  foreignKey: 'userID' ,
+  onDelete: 'cascade',
 });
 CommentDB.belongsTo(UsersDB,{
   foreignKey: 'userID' 
@@ -50,7 +51,8 @@ CommentDB.belongsTo(UsersDB,{
 
 // Video One-to-Many comments
 VideosDB.hasMany(CommentDB,{
-  foreignKey: 'videoID' 
+  foreignKey: 'videoID' ,
+  onDelete: 'cascade',
 });
 CommentDB.belongsTo(VideosDB,{
   foreignKey: 'videoID' 
@@ -59,7 +61,8 @@ CommentDB.belongsTo(VideosDB,{
 
 // course One-to-Many video 
 UsersDB.hasMany(CoursesDB,{
-  foreignKey: 'userID' 
+  foreignKey: 'userID' ,
+  onDelete: 'cascade',
 });
 CoursesDB.belongsTo(UsersDB,{
   foreignKey: 'userID' 
@@ -67,7 +70,9 @@ CoursesDB.belongsTo(UsersDB,{
 
 // Course One-to-Many video 
 CoursesDB.hasMany(VideosDB,{
-  foreignKey: 'courseID' 
+  foreignKey: 'courseID' ,
+  onDelete: 'cascade',
+
 });
 VideosDB.belongsTo(CoursesDB,{
   foreignKey: 'courseID' 
@@ -75,7 +80,8 @@ VideosDB.belongsTo(CoursesDB,{
 
 // Users One-to-Many video 
 UsersDB.hasMany(VideosDB,{
-  foreignKey: 'userID' 
+  foreignKey: 'userID' ,
+  onDelete: 'cascade',
 });
 VideosDB.belongsTo(UsersDB,{
   foreignKey: 'userID' 
