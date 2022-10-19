@@ -7,8 +7,8 @@ const users = require("./users")
 const videos = require("./videos")
 const comments = require("./comments")
 const course = require("./courses");
-const __isBlocked = require('./users/__isBlocked');
-const ___isAuth = require('./users/__isAuth');
+const __isBlocked = require('../middlewares/__userMiddlewares/__isBlocked');
+const ___isAuth = require('../middlewares/__userMiddlewares/__isAuth');
 
 
 router.get('/', (req, res) => {

@@ -1,39 +1,27 @@
 /* eslint-disable*/
 const express = require('express');
-const __getAllUser = require("./__getAllUsers")
-const __signup = require("./__signup")
-const __login = require("./__login")
-const __updatePassword = require("./__updatePassword")
-const __updateUser = require("./__updateUser")
-const __getAllStudent = require("./__getAllStudent")
-const __getAllTeachers= require("./__getAllTeachers")
-const __getallBlocked = require("./__getallBlocked")
 
-const  __checkRegx  = require('./__checkRegx');
-const __isBlocked = require('./__isBlocked');
-const ___isAdmin = require('./__isAdmin');
-const ___isAuth = require('./__isAuth');
-const ___isTeacher = require('./__isTeacher');
+const {__signup,__login,__updatePassword,__updateUser}= require("../../controller/userAuthCRUD");
+const {__getAllUsers,__getAllBlocked,__getAllStudent,__getAllTeacher}= require("../../controller/__user__info");
+
+
+const __checkRegx  = require('../../middlewares/__userMiddlewares/__checkRegx');
+const __isBlocked = require('../../middlewares/__userMiddlewares/__isBlocked');
+const __isAdmin = require('../../middlewares/__userMiddlewares/__isAdmin');
+const __isAuth = require('../../middlewares/__userMiddlewares/__isAuth');
 
 
 
 const router = express.Router();
 
-router.get('/',(req,res)=>{
-    res.json({
-        message : 'User Home'
-    })
-} );
+router.get('/',__isBlocked ,__isAuth,__isAdmin,__getAllUsers );
+router.post('/signup',__checkRegx,__signup );
+router.post('/login',__isBlocked,__login );
+router.put('/updateUser',__isBlocked ,__isAuth,__updateUser );
+router.put('/updatepassword',__updatePassword );
 
-router.use('/getusers',__isBlocked ,___isAuth,__getAllUser );
-router.use('/signup',__checkRegx,__signup );
-router.use('/login',__isBlocked,__login );
-router.use('/getAllStudent',__getAllStudent );
-router.use('/updateUser',__isBlocked ,___isAuth,__updateUser );
-router.use('/getAllTeachers',___isAuth,___isTeacher,__getAllTeachers);
-router.use('/getAllBlocked',__getallBlocked);
-router.use('/updatepassword',__updatePassword );
-
-
+router.get('/getAllTeachers',__isAuth,__getAllTeacher);
+router.get('/getAllBlocked',__isBlocked ,__isAuth,__isAdmin,__getAllBlocked);
+router.get('/getAllStudent',__isBlocked ,__isAuth,__isAdmin,__getAllStudent );
 
 module.exports = router;
