@@ -1,3 +1,4 @@
+/*eslint-disable */
 const VideosReports = (sequelize, DataTypes) =>
   sequelize.define(
     "videosreport",

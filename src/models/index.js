@@ -6,7 +6,7 @@ const Users = require("./users.model");
 const Videos = require("./videos.model");
 const Courses = require("./courses.model");
 const Comments = require("./comments.model");
-const VideosReport= require("./VideosReports.modal")
+const VideosReport= require("./VideosReposts.model")
 const Feedbacks = require("./feedback.model");
 
 var config;
@@ -37,9 +37,7 @@ const UsersDB = Users(db, DataTypes);
 const VideosDB = Videos(db, DataTypes);
 const CommentDB = Comments(db, DataTypes);
 const CoursesDB = Courses(db, DataTypes);
-
 const VideosReportsDB=VideosReport(db,DataTypes);
-
 const FeedbackDB = Feedbacks(db,DataTypes);
 // RelationShip
 
@@ -90,6 +88,31 @@ UsersDB.hasMany(VideosDB,{
 
 
 VideosDB.belongsTo(UsersDB,{
+  foreignKey: 'userID' 
+});
+
+
+
+//
+VideosDB.hasMany(VideosReportsDB,{
+  foreignKey: 'videoID' ,
+  onDelete: 'cascade',
+});
+
+
+VideosReportsDB.belongsTo(VideosDB,{
+  foreignKey: 'videoID' 
+});
+
+// ************
+
+UsersDB.hasMany(VideosReportsDB,{
+  foreignKey: 'userID' ,
+  onDelete: 'cascade',
+});
+
+
+VideosReportsDB.belongsTo(UsersDB,{
   foreignKey: 'userID' 
 });
 
