@@ -42,6 +42,7 @@ const __getComment = async (req, res, next) => {
       return {
         id: item.id,
         text: item.text,
+        videoID : item.videoID
       };
     });
     res.comments = commentData;

@@ -4,11 +4,17 @@ const { UsersDB } = require("../../models");
 
 const ___isAuth = async (req, res, next) => {
 
+  if(!req.headers.authorization){
+    res.send("please add token need token")
+    return;
+  }
   const type = req.headers.authorization.split(" ")[0];
   if(type == "Basic"){
     res.send("no Valid")
     return;
   }
+
+
   const token = req.headers.authorization.split(" ")[1];
   try {
     const {email} = JWT.verify(token, process.env.JWT_SECRET_KEY);

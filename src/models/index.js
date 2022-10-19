@@ -7,6 +7,9 @@ const Videos = require("./videos.model");
 const Courses = require("./courses.model");
 const Comments = require("./comments.model");
 const Replays = require("./replay.model");
+const VideosReport= require("./VideosReposts.model")
+const Feedbacks = require("./feedback.model");
+
 
 var config;
 if (process.env.DATABASE_URL) {
@@ -37,51 +40,68 @@ const VideosDB = Videos(db, DataTypes);
 const CommentDB = Comments(db, DataTypes);
 const CoursesDB = Courses(db, DataTypes);
 const ReplayDB = Replays(db, DataTypes);
-
-
+const VideosReportsDB=VideosReport(db,DataTypes);
+const FeedbackDB = Feedbacks(db,DataTypes);
 
 // RelationShip
 
 
 // User One-to-Many comments
-UsersDB.hasMany(CommentDB, {
-	foreignKey: 'userID'
+
+UsersDB.hasMany(CommentDB,{
+  foreignKey: 'userID' ,
+  onDelete: 'cascade',
 });
 CommentDB.belongsTo(UsersDB, {
 	foreignKey: 'userID'
 });
 
 // Video One-to-Many comments
-VideosDB.hasMany(CommentDB, {
-	foreignKey: 'videoID'
+
+VideosDB.hasMany(CommentDB,{
+  foreignKey: 'videoID' ,
+  onDelete: 'cascade',
 });
+
 CommentDB.belongsTo(VideosDB, {
 	foreignKey: 'videoID'
 });
 
 
 // course One-to-Many video 
-UsersDB.hasMany(CoursesDB, {
-	foreignKey: 'userID'
+
+UsersDB.hasMany(CoursesDB,{
+  foreignKey: 'userID' ,
+  onDelete: 'cascade',
 });
+
 CoursesDB.belongsTo(UsersDB, {
 	foreignKey: 'userID'
 });
 
 // Course One-to-Many video 
-CoursesDB.hasMany(VideosDB, {
-	foreignKey: 'courseID'
+
+CoursesDB.hasMany(VideosDB,{
+  foreignKey: 'courseID' ,
+  onDelete: 'cascade',
 });
 VideosDB.belongsTo(CoursesDB, {
 	foreignKey: 'courseID'
 });
 
 // Users One-to-Many video 
-UsersDB.hasMany(VideosDB, {
-	foreignKey: 'userID'
-});
+
 VideosDB.belongsTo(UsersDB, {
 	foreignKey: 'userID'
+
+UsersDB.hasMany(VideosDB,{
+  foreignKey: 'userID' ,
+  onDelete: 'cascade',
+});
+
+
+VideosDB.belongsTo(UsersDB,{
+  foreignKey: 'userID' 
 });
 
 // // Users one-to-many replay
@@ -93,11 +113,51 @@ VideosDB.belongsTo(UsersDB, {
 // })
 
 
+//
+VideosDB.hasMany(VideosReportsDB,{
+  foreignKey: 'videoID' ,
+  onDelete: 'cascade',
+});
+
+
+VideosReportsDB.belongsTo(VideosDB,{
+  foreignKey: 'videoID' 
+});
+
+// ************
+
+UsersDB.hasMany(VideosReportsDB,{
+  foreignKey: 'userID' ,
+  onDelete: 'cascade',
+});
+
+
+VideosReportsDB.belongsTo(UsersDB,{
+  foreignKey: 'userID' 
+});
+
+
+
+// Users One-to-Many feedbak
+
+UsersDB.hasMany(FeedbackDB,{
+  foreignKey: 'userID' ,
+  onDelete: 'cascade',
+});
+FeedbackDB.belongsTo(UsersDB,{
+  foreignKey: 'userID' 
+});
+
+
+
 module.exports = {
 	db,
 	UsersDB,
 	VideosDB,
 	CoursesDB,
 	CommentDB,
-	ReplayDB
+	ReplayDB,
+  VideosReportsDB,
+  FeedbackDB,
+ 
 };
