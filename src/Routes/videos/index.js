@@ -14,7 +14,7 @@ router.get('/',(req,res)=>{
     })
 } );
 router.use('/getallvideos', __getAllVideos );
-router.use('/addVideo',__addvideo );
+router.use('/addVideo',___isAuth,__addvideo );
 router.use('/deleteVideo',__deleteVideo );
 
 

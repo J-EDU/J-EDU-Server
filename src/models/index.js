@@ -33,18 +33,54 @@ config
 
 const UsersDB = Users(db, DataTypes);
 const VideosDB = Videos(db, DataTypes);
-const CoursesDB = Courses(db, DataTypes);
 const CommentDB = Comments(db, DataTypes);
+const CoursesDB = Courses(db, DataTypes);
 
 
 // RelationShip
 
+
+// User One-to-Many comments
 UsersDB.hasMany(CommentDB,{
   foreignKey: 'userID' 
 });
 CommentDB.belongsTo(UsersDB,{
   foreignKey: 'userID' 
 });
+
+// Video One-to-Many comments
+VideosDB.hasMany(CommentDB,{
+  foreignKey: 'videoID' 
+});
+CommentDB.belongsTo(VideosDB,{
+  foreignKey: 'videoID' 
+});
+
+
+// course One-to-Many video 
+UsersDB.hasMany(CoursesDB,{
+  foreignKey: 'userID' 
+});
+CoursesDB.belongsTo(UsersDB,{
+  foreignKey: 'userID' 
+});
+
+// Course One-to-Many video 
+CoursesDB.hasMany(VideosDB,{
+  foreignKey: 'courseID' 
+});
+VideosDB.belongsTo(CoursesDB,{
+  foreignKey: 'courseID' 
+});
+
+// Users One-to-Many video 
+UsersDB.hasMany(VideosDB,{
+  foreignKey: 'userID' 
+});
+VideosDB.belongsTo(UsersDB,{
+  foreignKey: 'userID' 
+});
+
 
 
 module.exports = {

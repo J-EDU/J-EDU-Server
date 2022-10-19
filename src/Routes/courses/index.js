@@ -4,6 +4,7 @@ const __getAllCourses = require("./__getAllCourses");
 const __deleteCourse = require("./__deletecourse");
 const __addCourse= require("./__addCourse");
 const __updateCourse= require("./__updateCourse");
+const ___isAuth = require('../users/__isAuth');
 
 
 

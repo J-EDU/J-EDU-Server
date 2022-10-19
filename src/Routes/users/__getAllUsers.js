@@ -1,6 +1,6 @@
 /* eslint-disable*/
 const express = require("express");
-const { UsersDB, CommentDB } = require("../../models");
+const { UsersDB, CommentDB, CoursesDB, VideosDB } = require("../../models");
 const ___isAuth = require("./__isAuth");
 const ___isAdmin = require("./__isAdmin");
 
@@ -12,7 +12,17 @@ router.get("/", async (req, res, bayan) => {
       include: [
         {
           model: CommentDB,
-          // include: [{ model: Comment }],
+         // include: [{ model: Comment }],
+        },
+        {
+          model: CoursesDB,
+          include: [
+            { 
+              model: VideosDB,
+              include: [{ model: CommentDB }],
+            },
+            
+          ],
         },
       ],
     });
@@ -29,7 +39,7 @@ router.get("/", async (req, res, bayan) => {
       };
     });
     res.users = usersData;
-    res.status(200).json({ users: usersData });
+    res.status(200).json({ users: users });
     return;
   } catch (error) {
     bayan({ message: `Error happend in getAllusers ${error}` });

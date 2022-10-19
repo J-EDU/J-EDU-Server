@@ -16,6 +16,13 @@ const CommentModel = (sequelize, DataTypes) =>
           key: "id",
         },
       },
+      videoID: {
+        type: DataTypes.UUID,
+        references: {
+          model: "videos",
+          key: "id",
+        },
+      },
       text: {
         type: DataTypes.STRING,
         allowNull: false,

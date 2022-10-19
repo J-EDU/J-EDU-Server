@@ -10,6 +10,7 @@ router.post('/',async (req, res,next) =>{
       const commentData = {
         
         userID: req.user.id,
+        videoID :req.body.videoID, 
         text: req.body.text,
       }
       try {

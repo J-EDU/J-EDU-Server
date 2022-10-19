@@ -17,6 +17,20 @@ const VideosModel = (sequelize, DataTypes) =>
         type: DataTypes.STRING,
         allowNull: false,
       },
+      userID: {
+        type: DataTypes.UUID,
+        references: {
+          model: "users",
+          key: "id",
+        },
+      },
+      courseID: {
+        type: DataTypes.UUID,
+        references: {
+          model: "courses",
+          key: "id",
+        },
+      },
       URL: {
         type: DataTypes.STRING,
         allowNull: false,
