@@ -1,4 +1,5 @@
-const { FeedbackDB } = require("../models");
+/*eslint-disable*/
+const { FeedbackDB, UsersDB } = require("../models");
 
 
 const __addFeedback= async (req, res, next) => {
@@ -36,14 +37,22 @@ const __addFeedback= async (req, res, next) => {
 
   const __getFeedback = async (req, res, next) => {
     try {
-      const feedback = await FeedbackDB.findAll();
+      const feedback = await FeedbackDB.findAll({
+        include: [
+          {
+            model: UsersDB,
+            // include: [{ model: Comment }],
+          },
+        ],
+      });
       const feedbackData = feedback.map((item, idx) => {
         return {
           id: item.id,
           text: item.text,
+          userID : item.userID
         };
       });
-      res.feedback = feedbacktData;
+      res.feedback = feedbackData;
       res.status(200).json({ feedbackData });
       return;
     } catch (error) {
@@ -55,15 +64,16 @@ const __addFeedback= async (req, res, next) => {
   const __updateFeedback = async (req, res, next) => {
     try {
       let id = req.params.id;
-      let newFeedback = req.body;
-      await FeedbackDB.update(newFeedback, { where: { id } });
-      let updateFeedback = await FeedbackDB.findOne({ where: { id: id } });
-      let addfe = await updateFeedback.update(newFeedback);
-      res.status(202).json({ addfe });
-    } catch (err) {
-      console.log("fawzi ~ err", err);
+      const { text } = req.body;
   
-      next(`Error inside updateFeedback function : ${err}`);
+      let findFeedBack = await FeedbackDB.findOne({ where: {id } });
+      let item =await FeedbackDB.update({ ...findFeedBack, text }, { where: { id } });
+  
+      res.status(200).json({ msg: item});
+    } catch (err) {
+      console.log("Text ~ err", err);
+  
+      next(`Error inside updatePassword function : ${err}`);
     }
   };
 

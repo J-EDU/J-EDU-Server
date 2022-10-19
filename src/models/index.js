@@ -95,7 +95,8 @@ VideosDB.belongsTo(UsersDB,{
 // Users One-to-Many feedbak
 
 UsersDB.hasMany(FeedbackDB,{
-  foreignKey: 'userID' 
+  foreignKey: 'userID' ,
+  onDelete: 'cascade',
 });
 FeedbackDB.belongsTo(UsersDB,{
   foreignKey: 'userID' 
