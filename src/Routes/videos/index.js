@@ -1,21 +1,14 @@
 /* eslint-disable*/
 const express = require('express');
-const __getAllVideos = require("./__getAllVideos")
-const __addvideo = require("./__addvideo")
-const __deleteVideo = require("./__deleteVideos");
-const __isBlocked = require('../users/__isBlocked');
-const ___isAuth = require('../users/__isAuth');
+const __uploadvideo = require('../../middlewares/__videoMiddlewares/__uploadvideo');
+const ___isAuth = require('../../middlewares/__userMiddlewares/__isAuth');
+const {__addVideo,__getVideos,__deleteVideo}= require("../../controller/videosCRUD");
 
 const router = express.Router();
 
-router.get('/',(req,res)=>{
-    res.json({
-        message : 'Video Home'
-    })
-} );
-router.use('/getallvideos', __getAllVideos );
-router.use('/addVideo',__addvideo );
-router.use('/deleteVideo',__deleteVideo );
+router.get('/', __getVideos );
+router.post('/addVideo',___isAuth,__uploadvideo,__addVideo );
+router.delete('/deleteVideo/:id',__deleteVideo );
 
 
 module.exports = router;

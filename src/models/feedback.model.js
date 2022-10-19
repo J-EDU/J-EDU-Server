@@ -1,8 +1,8 @@
 /* eslint-disable */
 
-const CommentModel = (sequelize, DataTypes) =>
+const FeedbackModel = (sequelize, DataTypes) =>
   sequelize.define(
-    "comments",
+    "feedbacks",
     {
       id: {
         type: DataTypes.UUID,
@@ -16,13 +16,6 @@ const CommentModel = (sequelize, DataTypes) =>
           key: "id",
         },
       },
-      videoID: {
-        type: DataTypes.UUID,
-        references: {
-          model: "videos",
-          key: "id",
-        },
-      },
       text: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -33,4 +26,4 @@ const CommentModel = (sequelize, DataTypes) =>
     }
   );
 
-module.exports = CommentModel;
+module.exports = FeedbackModel;

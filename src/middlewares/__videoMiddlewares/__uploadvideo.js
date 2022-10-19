@@ -1,5 +1,4 @@
 /* eslint-disable*/
-const express = require('express');
 const cloudinary = require('cloudinary').v2;
 
 async function uplaodVideo(req, res,next){

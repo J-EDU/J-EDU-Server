@@ -1,21 +1,13 @@
 /* eslint-disable */
 
-const VideosModel = (sequelize, DataTypes) =>
+const CommentReportModel = (sequelize, DataTypes) =>
   sequelize.define(
-    "videos",
+    "commentReports",
     {
       id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
-      },
-      fullName: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      description: {
-        type: DataTypes.STRING,
-        allowNull: false,
       },
       userID: {
         type: DataTypes.UUID,
@@ -24,20 +16,16 @@ const VideosModel = (sequelize, DataTypes) =>
           key: "id",
         },
       },
-      courseID: {
+      commentID: {
         type: DataTypes.UUID,
         references: {
-          model: "courses",
+          model: "comments",
           key: "id",
         },
       },
-      URL: {
+      text: {
         type: DataTypes.STRING,
         allowNull: false,
-      },
-      Thumbnail: {
-        type: DataTypes.STRING,
-        defaultValue: "false",
       },
     },
     {
@@ -45,4 +33,4 @@ const VideosModel = (sequelize, DataTypes) =>
     }
   );
 
-module.exports = VideosModel;
+module.exports = CommentReportModel;
