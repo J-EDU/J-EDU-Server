@@ -1,100 +1,80 @@
 /* eslint-disable*/
-const { UsersDB, CommentDB, CoursesDB, VideosDB } = require("../models");
+const { UsersDB, CommentDB, CoursesDB, VideosDB, VideosReportsDB } = require("../models");
 
 
 const __getReports = async (req, res, next) => {
   try {
-    const users = await UsersDB.findAll({
+    const Reports = await VideosReportsDB.findAll({
       include: [
         {
-          model: CommentDB,
-         // include: [{ model: Comment }],
+          model: UsersDB,
         },
         {
-          model: CoursesDB,
-          include: [
-            { 
-              model: VideosDB,
-              include: [{ model: CommentDB }],
-            },
-            
-          ],
+          model: VideosDB,
         },
       ],
     });
-    const usersData = users.map((item, idx) => {
-      return {
-        id: item.id,
-        email: item.email,
-        name: item.fullName,
-        isBlocked: item.isBlocked,
-        phoneNumber: item.phoneNumber,
-        birthday: item.birthday,
-        role: item.role,
-        comments : item.comments
-      };
-    });
-    res.users = usersData;
-    res.status(200).json({ users: users });
+    res.status(200).json({ Reports });
     return;
   } catch (error) {
-    next({ message: `Error happend in getAllusers ${error}` });
+    next({ message: `Error happend in getAll Reports ${error}` });
   }
 };
 
 
   const __deleteReport= async (req, res, next) => {
-    try {
-        const users = await UsersDB.findAll({
-          where: {
-            role: "teacher"
+
+          try {
+
+  
+            let id = req.params.id;
+            
+            let deletedReport = await VideosReportsDB.destroy({ where: { id } });
+
+            res.status(202).json({ item: deletedReport });
+          } catch (err) {
+            console.log("Hassan ~ err", err);
+        
+            next(`Error inside deleteOneComment function : ${err}`);
           }
-        });
-        const usersData= users.map((item,idx)=>{
-          return {
-            id : item.id,
-            email : item.email,
-            name : item.fullName,
-            isBlocked : item.isBlocked,
-            phoneNumber : item.phoneNumber,
-            birthday : item.birthday,
-            role : item.role,
-          }
-        })
-        res.users = usersData;
-        res.status(200).json({teachers:res.users});
-        return;
-      } catch (error) {
-        next({message:`Error happend in getAllTeachers${error}`})
-      }
-  };
+  
+        };
 
 
   
   const __addReport= async (req, res, next) => {
+
     try {
-        const users = await UsersDB.findAll({
-          where: {
-            role: "teacher"
-          }
-        });
-        const usersData= users.map((item,idx)=>{
-          return {
-            id : item.id,
-            email : item.email,
-            name : item.fullName,
-            isBlocked : item.isBlocked,
-            phoneNumber : item.phoneNumber,
-            birthday : item.birthday,
-            role : item.role,
-          }
-        })
-        res.users = usersData;
-        res.status(200).json({teachers:res.users});
-        return;
-      } catch (error) {
-        next({message:`Error happend in getAllTeachers${error}`})
-      }
+      
+      let createdReport = await VideosReportsDB.create({...req.body,userID:req.user.id});
+      res.status(201).json(createdReport);
+    } catch (err) {
+      next(`Error inside addCourse function : ${err}`);
+    }
+
+    // try {
+    //     const users = await UsersDB.findAll({
+    //       where: {
+    //         role: "teacher"
+    //       }
+    //     });
+    //     const usersData= users.map((item,idx)=>{
+    //       return {
+    //         id : item.id,
+    //         email : item.email,
+    //         name : item.fullName,
+    //         isBlocked : item.isBlocked,
+    //         phoneNumber : item.phoneNumber,
+    //         birthday : item.birthday,
+    //         role : item.role,
+    //       }
+    //     })
+    //     res.users = usersData;
+    //     res.status(200).json({teachers:res.users});
+    //     return;
+    //   } catch (error) {
+    //     next({message:`Error happend in getAllTeachers${error}`})
+    //   }
   };
   
 

@@ -8,6 +8,14 @@ const VideosReports = (sequelize, DataTypes) =>
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
+      reportTitle:{
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      reportDiscription:{
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       videoID: {
         type: DataTypes.UUID,
         references: {

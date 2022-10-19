@@ -1,14 +1,12 @@
 /* eslint-disable*/
 const express = require('express');
-const __uploadvideo = require('../../middlewares/__videoMiddlewares/__uploadvideo');
-const ___isAuth = require('../../middlewares/__userMiddlewares/__isAuth');
-const {__addVideo,__getVideos,__deleteVideo}= require("../../controller/videosCRUD");
+const {__getReports, __addReport, __deleteReport}= require("../../controller/VideoReportCRUD");
 
 const router = express.Router();
 
-router.get('/', __getVideos );
-router.post('/addReport',__addVideo );
-router.delete('/deletereport/:id',__deleteVideo );
+router.get('/', __getReports );
+router.post('/addReport',__addReport );
+router.delete('/deletereport/:id',__deleteReport );
 
 
 module.exports = router;
