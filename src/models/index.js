@@ -6,7 +6,7 @@ const Users = require("./users.model");
 const Videos = require("./videos.model");
 const Courses = require("./courses.model");
 const Comments = require("./comments.model");
-
+const VideosReport= require("./VideosReports.modal")
 var config;
 if (process.env.DATABASE_URL) {
   config = {
@@ -35,7 +35,7 @@ const UsersDB = Users(db, DataTypes);
 const VideosDB = Videos(db, DataTypes);
 const CommentDB = Comments(db, DataTypes);
 const CoursesDB = Courses(db, DataTypes);
-
+const VideosReportsDB=VideosReport(db,DataTypes);
 
 // RelationShip
 
@@ -77,16 +77,35 @@ VideosDB.belongsTo(CoursesDB,{
 UsersDB.hasMany(VideosDB,{
   foreignKey: 'userID' 
 });
+
+
 VideosDB.belongsTo(UsersDB,{
   foreignKey: 'userID' 
 });
 
 
+VideosDB.belongsTo(VideosReportsDB,{
+  foreignKey: 'videosreport' 
+})
+
+
+UsersDB.belongsTo(VideosReportsDB,{
+  foreignKey: 'videosreport' 
+})
+
+
+VideosReportsDB.hasMany(VideosDB,{
+  foreignKey: 'videoID' 
+})
+VideosReportsDB.hasMany(UsersDB,{
+  foreignKey: 'userID' 
+})
 
 module.exports = {
   db,
   UsersDB,
   VideosDB,
   CoursesDB,
-  CommentDB
+  CommentDB,
+  VideosReportsDB
 };
