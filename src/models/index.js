@@ -7,6 +7,8 @@ const Videos = require("./videos.model");
 const Courses = require("./courses.model");
 const Comments = require("./comments.model");
 const VideosReport= require("./VideosReports.modal")
+const Feedbacks = require("./feedback.model");
+
 var config;
 if (process.env.DATABASE_URL) {
   config = {
@@ -35,14 +37,17 @@ const UsersDB = Users(db, DataTypes);
 const VideosDB = Videos(db, DataTypes);
 const CommentDB = Comments(db, DataTypes);
 const CoursesDB = Courses(db, DataTypes);
+
 const VideosReportsDB=VideosReport(db,DataTypes);
 
+const FeedbackDB = Feedbacks(db,DataTypes);
 // RelationShip
 
 
 // User One-to-Many comments
 UsersDB.hasMany(CommentDB,{
-  foreignKey: 'userID' 
+  foreignKey: 'userID' ,
+  onDelete: 'cascade',
 });
 CommentDB.belongsTo(UsersDB,{
   foreignKey: 'userID' 
@@ -50,7 +55,8 @@ CommentDB.belongsTo(UsersDB,{
 
 // Video One-to-Many comments
 VideosDB.hasMany(CommentDB,{
-  foreignKey: 'videoID' 
+  foreignKey: 'videoID' ,
+  onDelete: 'cascade',
 });
 CommentDB.belongsTo(VideosDB,{
   foreignKey: 'videoID' 
@@ -59,7 +65,8 @@ CommentDB.belongsTo(VideosDB,{
 
 // course One-to-Many video 
 UsersDB.hasMany(CoursesDB,{
-  foreignKey: 'userID' 
+  foreignKey: 'userID' ,
+  onDelete: 'cascade',
 });
 CoursesDB.belongsTo(UsersDB,{
   foreignKey: 'userID' 
@@ -67,7 +74,9 @@ CoursesDB.belongsTo(UsersDB,{
 
 // Course One-to-Many video 
 CoursesDB.hasMany(VideosDB,{
-  foreignKey: 'courseID' 
+  foreignKey: 'courseID' ,
+  onDelete: 'cascade',
+
 });
 VideosDB.belongsTo(CoursesDB,{
   foreignKey: 'courseID' 
@@ -75,7 +84,8 @@ VideosDB.belongsTo(CoursesDB,{
 
 // Users One-to-Many video 
 UsersDB.hasMany(VideosDB,{
-  foreignKey: 'userID' 
+  foreignKey: 'userID' ,
+  onDelete: 'cascade',
 });
 
 
@@ -84,22 +94,18 @@ VideosDB.belongsTo(UsersDB,{
 });
 
 
-VideosDB.belongsTo(VideosReportsDB,{
-  foreignKey: 'videosreport' 
-})
 
+// Users One-to-Many feedbak
 
-UsersDB.belongsTo(VideosReportsDB,{
-  foreignKey: 'videosreport' 
-})
-
-
-VideosReportsDB.hasMany(VideosDB,{
-  foreignKey: 'videoID' 
-})
-VideosReportsDB.hasMany(UsersDB,{
+UsersDB.hasMany(FeedbackDB,{
+  foreignKey: 'userID' ,
+  onDelete: 'cascade',
+});
+FeedbackDB.belongsTo(UsersDB,{
   foreignKey: 'userID' 
-})
+});
+
+
 
 module.exports = {
   db,
@@ -107,5 +113,6 @@ module.exports = {
   VideosDB,
   CoursesDB,
   CommentDB,
-  VideosReportsDB
+  VideosReportsDB,
+  FeedbackDB
 };

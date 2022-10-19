@@ -8,7 +8,7 @@ const __addCourse = async (req, res, next) => {
     let createdCourse = await CoursesDB.create({...req.body,userID:req.user.id});
     res.status(201).json(createdCourse);
   } catch (err) {
-    next(`Error inside addComment function : ${err}`);
+    next(`Error inside addCourse function : ${err}`);
   }
 };
 
@@ -20,7 +20,7 @@ const __deleteCourse = async (req, res, next) => {
   } catch (err) {
     console.log("Hassan ~ err", err)
     
-    next(`Error inside deleteOneComment function : ${err}`);
+    next(`Error inside deleteOneCourse function : ${err}`);
   }
 };
 

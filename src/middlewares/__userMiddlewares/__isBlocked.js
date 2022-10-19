@@ -6,6 +6,11 @@ const base = require("base-64");
 
 
 const __isBlocked = async (req, res, next) => {
+  if(!req.headers.authorization){
+    res.send("please add token or sign in again")
+    return;
+  }
+
   const type = req.headers.authorization.split(" ")[0];
   const auth = req.headers.authorization.split(" ")[1];
   let email ;
