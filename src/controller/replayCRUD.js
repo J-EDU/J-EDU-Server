@@ -1,18 +1,18 @@
 /* eslint-disable*/
 
-const { CommentDB } = require("../models");
+const { ReplayDB } = require("../models");
 
 
 const __addReplay= async (req, res, next) => {
   try {
-    const commentData = {
+    const replayData = {
       userID: req.user.id,
-      videoID: req.body.videoID,
+      feedbackID: req.body.feedbackID,
       text: req.body.text,
     };
     try {
-      let createdComment = await CommentDB.create(commentData);
-      res.status(201).json(createdComment);
+      let createdReplay = await ReplayDB.create(replayData);
+      res.status(201).json(createdReplay);
     } catch (error) {
       res.status(404).json({ msg: error.parent.detail });
       console.log("Catch", error);
@@ -26,8 +26,8 @@ const __addReplay= async (req, res, next) => {
 const __deleteReplay = async (req, res, next) => {
   try {
     let id = req.params.id;
-    let deletedComment = await CommentDB.destroy({ where: { id } });
-    res.status(202).json({ item: deletedComment });
+    let deletedReplay = await ReplayDB.destroy({ where: { id } });
+    res.status(202).json({ item: deletedReplay  });
   } catch (err) {
     console.log("Ruba ~ err", err);
 
@@ -37,15 +37,15 @@ const __deleteReplay = async (req, res, next) => {
 
 const __getReplay= async (req, res, next) => {
   try {
-    const comments = await CommentDB.findAll();
-    const commentData = comments.map((item, idx) => {
-      return {
-        id: item.id,
-        text: item.text,
-      };
-    });
-    res.comments = commentData;
-    res.status(200).json({ commentData });
+    const replaies = await ReplayDB.findAll();
+    // const commentData = comments.map((item, idx) => {
+    //   return {
+    //     id: item.id,
+    //     text: item.text,
+    //   };
+    // });
+    // res.comments = commentData;
+    res.status(200).json({ replaies });
     return;
   } catch (error) {
     next({ message: `Error happend in Get Replay ${error}` });
@@ -55,11 +55,11 @@ const __getReplay= async (req, res, next) => {
 const __updateReplay = async (req, res, next) => {
   try {
     let id = req.params.id;
-    let newComment = req.body;
-    await CommentDB.update(newComment, { where: { id } });
-    let updateComment = await CommentDB.findOne({ where: { id: id } });
-    let addco = await updateComment.update(newComment);
-    res.status(202).json({ addco });
+    let {text} = req.body;
+    let beforeUpdate = await ReplayDB.findOne({ where: { id } });
+    await ReplayDB.update({...beforeUpdate , text}, { where: { id } });
+    let afterUpdate = await ReplayDB.findOne({ where: { id } });
+    res.status(202).json({ afterUpdate });
   } catch (err) {
     console.log("Ruba ~ err", err);
 

@@ -1,5 +1,5 @@
 /*eslint-disable*/
-const { FeedbackDB, UsersDB } = require("../models");
+const { FeedbackDB, UsersDB, ReplayDB } = require("../models");
 
 
 const __addFeedback= async (req, res, next) => {
@@ -40,20 +40,13 @@ const __addFeedback= async (req, res, next) => {
       const feedback = await FeedbackDB.findAll({
         include: [
           {
-            model: UsersDB,
-            // include: [{ model: Comment }],
+            model: ReplayDB,
           },
         ],
       });
-      const feedbackData = feedback.map((item, idx) => {
-        return {
-          id: item.id,
-          text: item.text,
-          userID : item.userID
-        };
-      });
-      res.feedback = feedbackData;
-      res.status(200).json({ feedbackData });
+    
+      res.feedback = feedback;
+      res.status(200).json({ feedback });
       return;
     } catch (error) {
       next({ message: `Error happend in getAllFeedback ${error}` });

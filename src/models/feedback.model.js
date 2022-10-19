@@ -2,7 +2,7 @@
 
 const FeedbackModel = (sequelize, DataTypes) =>
   sequelize.define(
-    "feedback",
+    "feedbacks",
     {
       id: {
         type: DataTypes.UUID,
@@ -16,7 +16,6 @@ const FeedbackModel = (sequelize, DataTypes) =>
           key: "id",
         },
       },
-     
       text: {
         type: DataTypes.STRING,
         allowNull: false,

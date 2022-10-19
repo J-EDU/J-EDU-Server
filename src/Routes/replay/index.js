@@ -12,8 +12,8 @@ const {
   
 
 router.get("/", __getReplay);
-router.delete("/__deleteReplay/:id", __deleteReplay);
-router.post("/__addReplay", __addReplay);
-router.put("/__updateReplay/:id", __updateReplay);
+router.delete("/deleteReplay/:id", __deleteReplay);
+router.post("/addReplay", __addReplay);
+router.put("/updateReplay/:id", __updateReplay);
 
 module.exports = router;
