@@ -6,8 +6,8 @@ const Users = require("./users.model");
 const Videos = require("./videos.model");
 const Courses = require("./courses.model");
 const Comments = require("./comments.model");
+const VideosReport= require("./VideosReports.modal")
 const Feedbacks = require("./feedback.model");
-
 
 var config;
 if (process.env.DATABASE_URL) {
@@ -37,10 +37,10 @@ const UsersDB = Users(db, DataTypes);
 const VideosDB = Videos(db, DataTypes);
 const CommentDB = Comments(db, DataTypes);
 const CoursesDB = Courses(db, DataTypes);
+
+const VideosReportsDB=VideosReport(db,DataTypes);
+
 const FeedbackDB = Feedbacks(db,DataTypes);
-
-
-
 // RelationShip
 
 
@@ -87,9 +87,12 @@ UsersDB.hasMany(VideosDB,{
   foreignKey: 'userID' ,
   onDelete: 'cascade',
 });
+
+
 VideosDB.belongsTo(UsersDB,{
   foreignKey: 'userID' 
 });
+
 
 
 // Users One-to-Many feedbak
@@ -104,13 +107,12 @@ FeedbackDB.belongsTo(UsersDB,{
 
 
 
-
 module.exports = {
   db,
   UsersDB,
   VideosDB,
   CoursesDB,
   CommentDB,
+  VideosReportsDB,
   FeedbackDB
-  
 };
