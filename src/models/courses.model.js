@@ -2,7 +2,7 @@
 
 const CoursesModel = (sequelize, DataTypes) =>
   sequelize.define(
-    "courseTable",
+    "courses",
     {
       id: {
         type: DataTypes.UUID,
@@ -24,6 +24,13 @@ const CoursesModel = (sequelize, DataTypes) =>
       Thumbnail: {
         type: DataTypes.STRING,
         defaultValue: "",
+      },
+      userID: {
+        type: DataTypes.UUID,
+        references: {
+          model: "users",
+          key: "id",
+        },
       },
     },
     {

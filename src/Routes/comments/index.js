@@ -1,24 +1,18 @@
 /* eslint-disable */
+const express = require("express");
 
-
-const express = require('express');
-const __getAllComments = require("./__getAllComments");
-const __deleteComment = require("./__deleteComment");
-const __addComment= require("./__addComment");
-
-
+const {
+  __addComment,
+  __deleteComment,
+  __updateComment,
+  __getComment,
+} = require("../../controller/commentsCRUD");
 
 const router = express.Router();
 
-router.get('/',(req,res)=>{
-    res.json({
-        message : 'Comment Home'
-    })
-} );
-router.use('/getComment',__getAllComments );
-router.use('/deleteComment',__deleteComment );
-router.use('/addComment',__addComment );
-
-
+router.get("/", __getComment);
+router.delete("/deleteComment/:id", __deleteComment);
+router.post("/addComment", __addComment);
+router.put("/updateComment/:id", __updateComment);
 
 module.exports = router;

@@ -1,21 +1,16 @@
 /*eslint-disable */
 const express = require('express');
-const __getAllCourses = require("./__getAllCourses");
-const __deleteCourse = require("./__deletecourse");
-const __addCourse= require("./__addCourse");
+const { __getCourses,__deleteCourse,__addCourse,__updateCourse } = require('../../controller/courseCRUD');
 
 
 
 const router = express.Router();
 
-router.get('/',(req,res)=>{
-    res.json({
-        message : 'Course Home'
-    })
-} );
-router.use('/getCourse',__getAllCourses );
-router.use('/deletecourse',__deleteCourse );
-router.use('/addCourse',__addCourse);
+router.get('/',__getCourses );
+router.delete('/deletecourse/:id',__deleteCourse );
+router.post('/addCourse',__addCourse);
+router.put('/updateCourse/:id',__updateCourse);
+
 
 
 
