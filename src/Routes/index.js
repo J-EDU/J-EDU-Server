@@ -12,6 +12,7 @@ const reports = require("./videoReport");
 const replay = require("./replay");
 const __isBlocked = require('../middlewares/__userMiddlewares/__isBlocked');
 const __isAuth = require('../middlewares/__userMiddlewares/__isAuth');
+const quiz = require("./quizes")
 
 
 router.get('/', (req, res) => {
@@ -27,6 +28,7 @@ router.use('/course',__isBlocked ,__isAuth,course)
 router.use('/feedback',__isAuth,feedback)
 router.use('/report',__isAuth,reports )
 router.use('/replay',__isAuth,replay )
+router.use('/quiz',quiz );
 
 
 module.exports = router;
