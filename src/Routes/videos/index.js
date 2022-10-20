@@ -8,7 +8,8 @@ const router = express.Router();
 
 router.get('/', __getVideos );
 router.post('/addVideo',___isAuth,__uploadvideo,__addVideo );
-router.delete('/deleteVideo/:id',__deleteVideo );
+router.delete('/deleteVideo/:cloudinary_id',__deleteVideo );
 
 
 module.exports = router;
+

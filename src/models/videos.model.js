@@ -33,7 +33,7 @@ const VideosModel = (sequelize, DataTypes) =>
       },
       URL: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       Thumbnail: {
         type: DataTypes.STRING,

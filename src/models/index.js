@@ -8,6 +8,8 @@ const Comments = require("./comments.model");
 const Replay = require("./replay.model");
 const VideosReport = require("./VideosReposts.model");
 const Feedback = require("./feedback.model");
+const Quiz = require("./Quiz.model");
+const Question = require("./question.model");
 
 var config;
 if (process.env.DATABASE_URL) {
@@ -29,7 +31,7 @@ if (process.env.DATABASE_URL) {
 
 const db = new Sequelize(
   process.env.DATABASE_URL ||
-    "postgres://postgres:1234@127.0.0.1:5432/edu",
+    "postgres://fawzishiyyab:1999@127.0.0.1:5432/postgres",
   config
 );
 
@@ -40,7 +42,8 @@ const CommentDB = Comments(db, DataTypes);
 const CoursesDB = Courses(db, DataTypes);
 const ReplayDB = Replay(db, DataTypes);
 const VideosReportsDB = VideosReport(db, DataTypes);
-
+const QuestionDB = Question(db, DataTypes);
+const QuizDB = Quiz(db, DataTypes);
 // RelationShip
 
 // User One-to-Many comments
@@ -138,8 +141,23 @@ FeedbackDB.hasMany(ReplayDB, {
 })
 ReplayDB.belongsTo(FeedbackDB, {
   foreignKey: 'feedbackID',
+  
 });
 
+QuizDB.hasMany(QuestionDB, {
+  foreignKey: 'quizID',
+ 
+})
+QuestionDB.belongsTo(QuizDB, {
+  foreignKey: 'quizID',
+});
+QuizDB.belongsTo(CoursesDB,{
+  foreignKey: 'courseID',
+})
+
+CoursesDB.hasMany(QuizDB,{
+  foreignKey: 'courseID',
+})
 
 
 module.exports = {
@@ -151,4 +169,6 @@ module.exports = {
   ReplayDB,
   VideosReportsDB,
   FeedbackDB,
+  QuestionDB,
+  QuizDB
 };
