@@ -8,7 +8,7 @@ const __isBlocked = require('../../middlewares/__userMiddlewares/__isBlocked');
 const router = express.Router();
 
 router.get('/', __getVideos );
-router.post('/addVideo',___isAuth,__isBlocked,__uplaodVideo,__addVideo);
+router.post('/addVideo',___isAuth,__isBlocked,__addVideo);
 router.delete('/deleteVideo/:id',__deleteVideo );
 
 

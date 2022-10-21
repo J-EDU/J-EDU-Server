@@ -8,7 +8,7 @@ const __isBlocked = require('../../middlewares/__userMiddlewares/__isBlocked');
 const router = express.Router();
 
 router.get('/', __getFiles );
-router.post('/addFile',___isAuth,__isBlocked,__uplaodFile,__addFiles);
+router.post('/addFile',___isAuth,__isBlocked,__addFiles);
 router.delete('/deleteFile/:id',__deleteFile );
 
 

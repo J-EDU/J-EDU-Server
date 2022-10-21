@@ -1,11 +1,19 @@
 /* eslint-disable*/
+const cloudinaryClass = require("../collectionsAtAll/CloudinaryClass");
 const { CommentDB,VideosDB, FilesDB, filesCollection } = require("../models");
-const cloudinary = require('cloudinary').v2;
+// const cloudinary = require('cloudinary').v2;
+const cloudinary = new cloudinaryClass()
 
 const __addFiles = async (req, res, next) => {
   try {
-    const createdFile = await filesCollection.CREATE({...req.body,URL :req.mediaUrl,cloudinary_id: req.cloudinary_id ,userID:req.user.id});
-    res.status(200).send(createdFile);
+    if(req.files){
+    const result = await cloudinary.upload_file(req.files.file.tempFilePath);
+     const createdFile = await filesCollection.CREATE({...req.body,URL :result.url,cloudinary_id:result.public_id ,userID:req.user.id});
+     res.status(200).send(createdFile);
+    }
+    else{
+     res.status(404).send("please provide file");
+    }
   } catch (err) {
     next(`Error inside add Files function : ${err}`);
   }
@@ -13,23 +21,12 @@ const __addFiles = async (req, res, next) => {
 
 
 const __deleteFile = async (req, res, next) => {
-
-  cloudinary.config({ 
-    cloud_name: process.env.CLOUD_NAME, 
-    api_key: process.env.API_KEY, 
-    api_secret:process.env.API_SECRET 
-  });
-  
   try {
     let id = req.params.id;
-    let file = await FilesDB.findOne({ where: { id } });
-    await FilesDB.destroy({ where: { id } });
-
-    if(video){
-      let public_id = file.cloudinary_id;
-      let result =  await cloudinary.uploader.destroy(public_id, {type : 'upload', resource_type : 'video'}, result => {
-        return result;
-      })
+    const file = await filesCollection.READ_ONE(id);
+    await filesCollection.DELETE(id);
+    if(file){
+      let result =  await cloudinary.delete_file(file.cloudinary_id)
       res.status(202).json({result})
       return;
     }
@@ -44,8 +41,8 @@ const __deleteFile = async (req, res, next) => {
   }
 };
 
-const __getFiles = async (req, res, next) => {
 
+const __getFiles = async (req, res, next) => {
   try {
     const files = await filesCollection.READ_ALL();
     res.status(200).json({files});

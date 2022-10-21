@@ -22,9 +22,9 @@ router.get('/', (req, res) => {
 });
 
 router.use('/user',users );
-router.use('/video',__isBlocked ,__isAuth,videos );
+router.use('/video',videos );
 router.use('/comment',comments)
-router.use('/course',__isBlocked ,__isAuth,course)
+router.use('/course',course)
 router.use('/feedback',__isAuth,feedback)
 router.use('/report',__isAuth,reports )
 router.use('/replay',__isAuth,replay )

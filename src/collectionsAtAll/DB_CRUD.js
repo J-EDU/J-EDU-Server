@@ -7,7 +7,7 @@ class CRUD {
 
   async READ_ONE(id,child) {
     try {
-        return await this.model.findAll(
+        return await this.model.findOne(
           {
             where: {
                 id
@@ -16,7 +16,7 @@ class CRUD {
         }
          );
     } catch (err) {
-      throw new Error(err);
+      throw new Error(`${err} or maybay there is no record with this ID`);
     }
   }
 
