@@ -1,8 +1,8 @@
 /* eslint-disable */
 
-const VideosModel = (sequelize, DataTypes) =>
+const FilesModel = (sequelize, DataTypes) =>
   sequelize.define(
-    "videos",
+    "files",
     {
       id: {
         type: DataTypes.UUID,
@@ -34,19 +34,11 @@ const VideosModel = (sequelize, DataTypes) =>
           model: "courses",
           key: "id",
         },
-      },
-      URL: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      Thumbnail: {
-        type: DataTypes.STRING,
-        defaultValue: "false",
-      },
+      }
     },
     {
       // Options
     }
   );
 
-module.exports = VideosModel;
+module.exports = FilesModel;

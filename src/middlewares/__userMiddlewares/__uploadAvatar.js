@@ -2,6 +2,7 @@
 const cloudinary = require('cloudinary').v2;
 
 async function __uplaodVideo(req, res,next){
+    console.log("__uplaodVideo,__addVideo")
     try {
 
         let result = null; 
@@ -21,18 +22,12 @@ async function __uplaodVideo(req, res,next){
             result = await cloudinary.uploader.upload(req.files.image.tempFilePath,{
                   public_id: `${Date.now()}`,
                   resource_type: "image",
-                  folder: "images"
+                  folder: "Avatars"
               })
           }   
-          else if(req.files.video){
-        result = await cloudinary.uploader.upload(req.files.video.tempFilePath,{
-                public_id: `${Date.now()}`,
-                resource_type: "video",
-                folder: "videos"
-            })
-          }else{
+            else{
             res.status(301).json({
-                msg:"we accept image and video for now "
+                msg:"we accept image"
             });
 
           }
@@ -48,7 +43,7 @@ async function __uplaodVideo(req, res,next){
     } catch (err) {
         console.log("Hassan ~ err", err)
         res.status(301).json({
-            msg: err||"there is an error happend in uplad video"
+            msg: err||"there is an error happend in uplad avatar"
         });
     }
   }

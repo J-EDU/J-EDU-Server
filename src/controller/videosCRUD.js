@@ -1,10 +1,11 @@
 /* eslint-disable*/
 const { CommentDB,VideosDB } = require("../models");
+const cloudinary = require('cloudinary').v2;
 
 const __addVideo = async (req, res, next) => {
   try {
-    let createdVideo = await VideosDB.create({...req.body,URL : req.mediaUrl,userID:req.user.id});
-    res.status(201).json(createdVideo);
+    const createdVideo = await VideosDB.create({...req.body,URL :req.mediaUrl,cloudinary_id: req.cloudinary_id ,userID:req.user.id});
+    res.status(200).send(createdVideo);
   } catch (err) {
     console.log("Hassan ~ err", err)
     res.status(301).json({
@@ -13,12 +14,35 @@ const __addVideo = async (req, res, next) => {
   }
 };
 
+
 const __deleteVideo = async (req, res, next) => {
+
+  cloudinary.config({ 
+    cloud_name: process.env.CLOUD_NAME, 
+    api_key: process.env.API_KEY, 
+    api_secret:process.env.API_SECRET 
+  });
+  
   try {
     let id = req.params.id;
-    let deletevideo = await VideosDB.destroy({ where: { id } });
-    res.status(202).json({iten: deletevideo})
+    let video = await VideosDB.findOne({ where: { id } });
+    await VideosDB.destroy({ where: { id } });
+
+    if(video){
+      let public_id = video.cloudinary_id;
+      let result =  await cloudinary.uploader.destroy(public_id, {type : 'upload', resource_type : 'video'}, result => {
+        return result;
+      })
+      res.status(202).json({result})
+      return;
+    }
+    else{
+      res.status(301).json({"msg" : "there is no video with this id "})
+
+    }
+
   } catch (err) {
+    console.log("Hassan ~ err", err)
     next(`Error inside deleteVideo function : ${err}`);
   }
 };
@@ -45,5 +69,5 @@ const __getVideos = async (req, res, next) => {
 module.exports = {
   __addVideo,
   __deleteVideo,
-  __getVideos,
+  __getVideos
 };

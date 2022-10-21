@@ -1,7 +1,8 @@
 /* eslint-disable*/
 const cloudinary = require('cloudinary').v2;
 
-async function __uplaodVideo(req, res,next){
+async function __uplaodFile(req, res,next){
+    console.log("__uplaodVideo,Files")
     try {
 
         let result = null; 
@@ -17,22 +18,16 @@ async function __uplaodVideo(req, res,next){
             });
             return;
           }
-          if(req.files.image){
-            result = await cloudinary.uploader.upload(req.files.image.tempFilePath,{
+          if(req.files.file){
+            result = await cloudinary.uploader.upload(req.files.file.tempFilePath,{
                   public_id: `${Date.now()}`,
-                  resource_type: "image",
-                  folder: "images"
+                  resource_type: "raw",
+                  folder: "Files"
               })
           }   
-          else if(req.files.video){
-        result = await cloudinary.uploader.upload(req.files.video.tempFilePath,{
-                public_id: `${Date.now()}`,
-                resource_type: "video",
-                folder: "videos"
-            })
-          }else{
+            else{
             res.status(301).json({
-                msg:"we accept image and video for now "
+                msg:"we accept Files"
             });
 
           }
@@ -48,10 +43,10 @@ async function __uplaodVideo(req, res,next){
     } catch (err) {
         console.log("Hassan ~ err", err)
         res.status(301).json({
-            msg: err||"there is an error happend in uplad video"
+            msg: err||"there is an error happend in uplad avatar"
         });
     }
   }
 
   
- module.exports = __uplaodVideo ;
+ module.exports = __uplaodFile ;
