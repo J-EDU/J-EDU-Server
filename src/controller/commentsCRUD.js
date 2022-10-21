@@ -32,7 +32,7 @@ const __deleteComment = async (req, res, next) => {
 
 const __getComment = async (req, res, next) => {
   try {
-    const comments = await commentCollection.READ();
+    const comments = await commentCollection.READ_ALL();
     const commentData = comments.map((item, idx) => {
       return {
         id: item.id,
@@ -52,7 +52,7 @@ const __updateComment = async (req, res, next) => {
   try {
     const id = req.params.id;
     const newComment = req.body;
-    const updated = await commentCollection.UPDATEr(id,newComment)
+    const updated = await commentCollection.UPDATE(id,newComment)
     if(updated)
      return res.status(200).json({ updated });
      return res.status(404).json({ msg : "there is no Comment" });

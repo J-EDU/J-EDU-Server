@@ -1,16 +1,13 @@
 /* eslint-disable*/
-const { CommentDB,VideosDB, FilesDB } = require("../models");
+const { CommentDB,VideosDB, FilesDB, filesCollection } = require("../models");
 const cloudinary = require('cloudinary').v2;
 
 const __addFiles = async (req, res, next) => {
   try {
-    const createdFile = await FilesDB.create({...req.body,URL :req.mediaUrl,cloudinary_id: req.cloudinary_id ,userID:req.user.id});
+    const createdFile = await filesCollection.CREATE({...req.body,URL :req.mediaUrl,cloudinary_id: req.cloudinary_id ,userID:req.user.id});
     res.status(200).send(createdFile);
   } catch (err) {
-    console.log("Hassan ~ err", err)
-    res.status(301).json({
-      msg: err ||"there is an error happend in add video video"
-  });
+    next(`Error inside add Files function : ${err}`);
   }
 };
 
@@ -50,19 +47,11 @@ const __deleteFile = async (req, res, next) => {
 const __getFiles = async (req, res, next) => {
 
   try {
-    const files = await FilesDB.findAll(
-      // {include: [
-      //   {
-      //     model: CommentDB,
-      //     // include: [{ model: Comment }],
-      //   },
-      // ],}
-      );
-    res.files =files;
+    const files = await filesCollection.READ_ALL();
     res.status(200).json({files});
     return;
   } catch (error) {
-    bayan({message:`Error happend in getAllfiles ${error}`})
+    next(`Error happend in getAllfiles ${error}`)
   }
 };
 

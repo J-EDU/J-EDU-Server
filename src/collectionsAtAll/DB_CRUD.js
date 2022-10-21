@@ -5,24 +5,33 @@ class CRUD {
     this.model = model;
   }
 
-  async READ(id, child) {
+  async READ_ONE(id,child) {
     try {
-      if (id) {
-        return await this.modell.findAll(
-          { where: { id } },
+        return await this.model.findAll(
           {
-            include: child,
-          }
-        );
-      } else {
-        return await this.modell.findAll({
-          include: child,
-        });
-      }
+            where: {
+                id
+            },
+            include:child
+        }
+         );
     } catch (err) {
       throw new Error(err);
     }
   }
+
+  async READ_ALL(child) {
+    try {
+  
+        return await this.model.findAll({
+          include: child,
+        });
+      
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
 
   async CREATE(payload) {
     try {

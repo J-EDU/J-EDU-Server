@@ -26,7 +26,7 @@ const __deleteVideo = async (req, res, next) => {
 
   try {
     const id = req.params.id;
-    const video = await videoCollection.READ(id);
+    const video = await videoCollection.READ_ONE(id);
     const deleted = await videoCollection.DELETE(id);
     if (deleted) {
       let public_id = video.cloudinary_id;
@@ -49,7 +49,7 @@ const __deleteVideo = async (req, res, next) => {
 
 const __getVideos = async (req, res, next) => {
   try {
-    const videos = await videoCollection.READ(CommentDB);
+    const videos = await videoCollection.READ_ALL(CommentDB);
     if (videos) return res.status(200).json({ videos });
     return res.status(202).json({ msg: "No Videos" });
   } catch (err) {
