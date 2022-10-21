@@ -17,13 +17,13 @@ const __isAuth = require('../middlewares/__userMiddlewares/__isAuth');
 
 router.get('/', (req, res) => {
   res.json({
-    message: 'hello Root',
+    message: 'hello ',
   });
 });
 
 router.use('/user',users );
 router.use('/video',__isBlocked ,__isAuth,videos );
-router.use('/comment',__isBlocked ,__isAuth,comments)
+router.use('/comment',comments)
 router.use('/course',__isBlocked ,__isAuth,course)
 router.use('/feedback',__isAuth,feedback)
 router.use('/report',__isAuth,reports )

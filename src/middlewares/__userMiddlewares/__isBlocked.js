@@ -35,8 +35,6 @@ if(email){
   
           const user = await UsersDB.findOne({ where: { email} });
           if (user) {
-            console.log("Hassan ~ user", user)
-            
             if(!user.isBLocked){
                 req.user = user;
                 next();

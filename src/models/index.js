@@ -9,6 +9,7 @@ const Replay = require("./replay.model");
 const VideosReport = require("./VideosReposts.model");
 const Feedback = require("./feedback.model");
 const Files = require("./files.model");
+const CRUD = require('../collectionsAtAll/CRUD')
 
 var config;
 if (process.env.DATABASE_URL) {
@@ -42,6 +43,7 @@ const CoursesDB = Courses(db, DataTypes);
 const ReplayDB = Replay(db, DataTypes);
 const VideosReportsDB = VideosReport(db, DataTypes);
 const FilesDB = Files(db, DataTypes);
+
 
 // RelationShip
 
@@ -151,10 +153,17 @@ FilesDB.belongsTo(CoursesDB, {
   foreignKey: 'courseID',
 });
 
+// collectiosn 
+
+const commentCollection = new CRUD(CommentDB);
+const videoCollection = new CRUD(VideosDB);
+
 
 module.exports = {
   db,
   FilesDB,
+  commentCollection,
+  videoCollection,
   UsersDB,
   VideosDB,
   CoursesDB,

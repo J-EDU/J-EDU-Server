@@ -40,7 +40,6 @@ async function __uplaodVideo(req, res,next){
           if(result.url){
             req.cloudinary_id= result.public_id;
             req.mediaUrl = result.url 
-            console.log("Hassan ~ req.mediaUrl", req.mediaUrl)
             next();
             return;
           } 
