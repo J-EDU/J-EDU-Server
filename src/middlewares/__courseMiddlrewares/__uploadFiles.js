@@ -21,7 +21,7 @@ async function __uplaodFile(req, res,next){
           if(req.files.file){
             result = await cloudinary.uploader.upload(req.files.file.tempFilePath,{
                   public_id: `${Date.now()}`,
-                  resource_type: "raw",
+                  resource_type: "auto",
                   folder: "Files"
               })
           }   

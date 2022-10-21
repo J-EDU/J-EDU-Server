@@ -24,6 +24,10 @@ const FilesModel = (sequelize, DataTypes) =>
           key: "id",
         },
       },
+      URL: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       cloudinary_id: {
         type: DataTypes.STRING,
         allowNull: false,
