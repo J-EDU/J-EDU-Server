@@ -1,43 +1,38 @@
 /* eslint-disable*/
 
-const { CommentDB } = require("../models");
+const {commentCollection} = require("../models");
 
 
 const __addComment = async (req, res, next) => {
-  try {
-    const commentData = {
-      userID: req.user.id,
-      videoID: req.body.videoID,
-      text: req.body.text,
-    };
     try {
-      let createdComment = await CommentDB.create(commentData);
-      res.status(201).json(createdComment);
-    } catch (error) {
-      res.status(404).json({ msg: error.parent.detail });
-      console.log("Catch", error);
+      const commentData = {
+        userID: req.user.id,
+        videoID: req.body.videoID,
+        text: req.body.text,
+      };
+      let createdComment = await commentCollection.CREATE(commentData);
+      res.status(200).json(createdComment);
+    } catch (err) {
+      next(`commentsCRUD.js ~ line 16 ${err}`);
     }
-  } catch (err) {
-    console.log("Hassan ~ err", err);
-    next(`Error inside addComment function : ${err}`);
-  }
 };
 
 const __deleteComment = async (req, res, next) => {
   try {
     let id = req.params.id;
-    let deletedComment = await CommentDB.destroy({ where: { id } });
-    res.status(202).json({ item: deletedComment });
+    let deletedComment = await commentCollection.DELETE(id);
+    if(deletedComment)
+      return res.status(200).json({msg:"Ok"});
+      return res.status(404).json({msg:"No Comment"});
+    
   } catch (err) {
-    console.log("Hassan ~ err", err);
-
-    next(`Error inside deleteOneComment function : ${err}`);
+    next(`commentsCRUD.js ~ line 30  ${err}`);
   }
 };
 
 const __getComment = async (req, res, next) => {
   try {
-    const comments = await CommentDB.findAll();
+    const comments = await commentCollection.READ_ALL();
     const commentData = comments.map((item, idx) => {
       return {
         id: item.id,
@@ -48,23 +43,21 @@ const __getComment = async (req, res, next) => {
     res.comments = commentData;
     res.status(200).json({ commentData });
     return;
-  } catch (error) {
-    next({ message: `Error happend in getAllComments ${error}` });
+  } catch (err) {
+    next(`commentsCRUD.js ~ line 48 ${err}`);
   }
 };
 
 const __updateComment = async (req, res, next) => {
   try {
-    let id = req.params.id;
-    let newComment = req.body;
-    await CommentDB.update(newComment, { where: { id } });
-    let updateComment = await CommentDB.findOne({ where: { id: id } });
-    let addco = await updateComment.update(newComment);
-    res.status(202).json({ addco });
+    const id = req.params.id;
+    const newComment = req.body;
+    const updated = await commentCollection.UPDATE(id,newComment)
+    if(updated)
+     return res.status(200).json({ updated });
+     return res.status(404).json({ msg : "there is no Comment" });
   } catch (err) {
-    console.log("fawzi ~ err", err);
-
-    next(`Error inside updatecomments function : ${err}`);
+   next(`commentsCRUD.js ~ line 61${err}`);
   }
 };
 

@@ -34,7 +34,7 @@ const __signup = async (req, res, next) => {
 
         const user =await UsersDB.findOne({ where: { email } });
         if(!user){
-            const user = await UsersDB.create({...req.body,password : hashedPassword});
+            const user = await UsersDB.create({...req.body,password : hashedPassword,URL :req.mediaUrl,cloudinary_id: req.cloudinary_id});
             res.status(200).json({user});
             return;
         }else{

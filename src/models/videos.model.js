@@ -24,6 +24,10 @@ const VideosModel = (sequelize, DataTypes) =>
           key: "id",
         },
       },
+      cloudinary_id: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       courseID: {
         type: DataTypes.UUID,
         references: {
