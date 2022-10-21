@@ -1,8 +1,8 @@
 /* eslint-disable*/
 const cloudinary = require('cloudinary').v2;
 
-async function uplaodVideo(req, res,next){
-    
+async function __uplaodVideo(req, res,next){
+    console.log("__uplaodVideo,__addVideo")
     try {
 
         let result = null; 
@@ -18,27 +18,22 @@ async function uplaodVideo(req, res,next){
             });
             return;
           }
-
           if(req.files.image){
             result = await cloudinary.uploader.upload(req.files.image.tempFilePath,{
                   public_id: `${Date.now()}`,
-                  resource_type: "auto",
-                  folder: "images"
+                  resource_type: "image",
+                  folder: "Avatars"
               })
           }   
-          else if(req.files.video){
-        result = await cloudinary.uploader.upload(req.files.video.tempFilePath,{
-                public_id: `${Date.now()}`,
-                resource_type: "auto",
-                folder: "videos"
-            })
-          }else{
+            else{
             res.status(301).json({
-                msg:"we accept image and video for now "
+                msg:"we accept image"
             });
 
           }
+
           if(result.url){
+            req.cloudinary_id= result.public_id;
             req.mediaUrl = result.url 
             console.log("Hassan ~ req.mediaUrl", req.mediaUrl)
             next();
@@ -48,9 +43,10 @@ async function uplaodVideo(req, res,next){
     } catch (err) {
         console.log("Hassan ~ err", err)
         res.status(301).json({
-            msg: err||"there is an error happend in uplad video"
+            msg: err||"there is an error happend in uplad avatar"
         });
     }
   }
+
   
-  module.exports = uplaodVideo;
+ module.exports = __uplaodVideo ;

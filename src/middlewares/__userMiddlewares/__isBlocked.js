@@ -35,7 +35,7 @@ if(email){
   
           const user = await UsersDB.findOne({ where: { email} });
           if (user) {
-            if(!user.isBlocked ){
+            if(!user.isBLocked){
                 req.user = user;
                 next();
             }else{

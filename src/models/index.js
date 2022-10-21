@@ -8,6 +8,8 @@ const Comments = require("./comments.model");
 const Replay = require("./replay.model");
 const VideosReport = require("./VideosReposts.model");
 const Feedback = require("./feedback.model");
+const Files = require("./files.model");
+const CRUD = require('../collectionsAtAll/DB_CRUD')
 
 var config;
 if (process.env.DATABASE_URL) {
@@ -40,6 +42,8 @@ const CommentDB = Comments(db, DataTypes);
 const CoursesDB = Courses(db, DataTypes);
 const ReplayDB = Replay(db, DataTypes);
 const VideosReportsDB = VideosReport(db, DataTypes);
+const FilesDB = Files(db, DataTypes);
+
 
 // RelationShip
 
@@ -139,11 +143,42 @@ FeedbackDB.hasMany(ReplayDB, {
 ReplayDB.belongsTo(FeedbackDB, {
   foreignKey: 'feedbackID',
 });
+// ********** 
 
+CoursesDB.hasMany(FilesDB, {
+  foreignKey: 'courseID',
+  onDelete: "cascade",
+})
+FilesDB.belongsTo(CoursesDB, {
+  foreignKey: 'courseID',
+});
+
+
+VideosDB.hasMany(VideosReportsDB, {
+  foreignKey: 'videoID',
+  onDelete: "cascade",
+})
+VideosReportsDB.belongsTo(VideosDB, {
+  foreignKey: 'videoID',
+});
+
+// collectiosn 
+
+const commentCollection = new CRUD(CommentDB);
+const videoCollection = new CRUD(VideosDB);
+const courseCollection = new CRUD(CoursesDB);
+const reportsCollection = new CRUD(VideosReportsDB);
+const filesCollection = new CRUD(FilesDB);
 
 
 module.exports = {
   db,
+  FilesDB,
+  commentCollection,
+  videoCollection,
+  courseCollection,
+  reportsCollection,
+  filesCollection,
   UsersDB,
   VideosDB,
   CoursesDB,

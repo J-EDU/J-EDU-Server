@@ -38,10 +38,15 @@ const UsersModel = (sequelize,DataTypes)=>sequelize.define('users', {
       defaultValue : "student",
       allowNull:false
     },
+    URL: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     isAuth: {
       type: DataTypes.BOOLEAN,
       defaultValue : false,
     },
+
     token: {
       type: DataTypes.VIRTUAL,
       get:function(){

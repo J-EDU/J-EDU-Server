@@ -1,26 +1,25 @@
 /* eslint-disable*/
-const { VideosDB, CoursesDB } = require("../models");
+const { VideosDB, CoursesDB, CommentDB, courseCollection, FilesDB } = require("../models");
 
 const __addCourse = async (req, res, next) => {
-  
   try {
-      
-    let createdCourse = await CoursesDB.create({...req.body,userID:req.user.id});
+    let createdCourse = await courseCollection.CREATE({...req.body,userID:req.user.id})
     res.status(201).json(createdCourse);
   } catch (err) {
-    next(`Error inside addCourse function : ${err}`);
+    next(`Error courseCRUD.js ~ line 11 : ${err}`);
   }
 };
 
 const __deleteCourse = async (req, res, next) => {
   try {
     let id = req.params.id;
-    let deletedCourse= await CoursesDB.destroy({ where: { id } });
-    res.status(202).json({item: deletedCourse})
+    let deletedCourse= await courseCollection.DELETE(id)
+    if(deletedCourse)
+    return res.status(200).json({msg:"Ok"});
+    return res.status(404).json({msg:"No Course"});
+  
   } catch (err) {
-    console.log("Hassan ~ err", err)
-    
-    next(`Error inside deleteOneCourse function : ${err}`);
+    next(`Error courseCRUD.js ~ line 24 : ${err}`);
   }
 };
 
@@ -28,40 +27,44 @@ const __updateCourse = async (req, res, next) => {
 	try {
 		let id = req.params.id;
 		let newCourseData = req.body;  
-		await CoursesDB.update(newCourseData, { where: { id } });
-		let updatedCourse = await CoursesDB.findOne({ where: { id } });
-		res.status(200).send(updatedCourse);
+		await courseCollection.UPDATE(id,newCourseData);
+		let course = await courseCollection.READ_ONE(id,
+      [
+        {
+          model: VideosDB,
+          include: [{ model: CommentDB }],
+        },
+      ]
+      )
+    if(course)
+    return res.status(200).json({course});
+    return res.status(201).json({msg : "there is no Courses"});
 	} catch (err) {
-		next(`Error inside updatedCourse function : ${ err }`);
+    next(` courseCRUD.js ~ line 35  ${err}`)
+
 	}
 };
 
 const __getCourses = async (req, res, next) => {
 
   try {
-    const courses = await CoursesDB.findAll({
-      include: [
+    const courses = await courseCollection.READ_ALL(
+      [
         {
           model: VideosDB,
-          // include: [{ model: Comment }],
+          include: [{ model: CommentDB }],
         },
-      ],
-    });
-    const courseData=  courses.map((item,idx)=>{
-      return {
-        id : item.id,
-        name : item.fullName,
-        description : item.description,
-        language : item.language,
-        thumbnail: item.thumbnail,
-        videos : item.videos
-      }
-    })
-    res.courses = courseData;
-    res.status(200).json({courseData});
-    return;
-  } catch (error) {
-    next({message:`Error happend in getAllCourses ${error}`})
+        {
+          model: FilesDB,
+        },
+      ]
+    )
+    if(courses)
+      return res.status(200).json({courses});
+      return res.status(201).json({msg : "there is no Courses"});
+  
+  } catch (err) {
+    next(` courseCRUD.js ~ line 55  ${err}`)
   }
 };
 
