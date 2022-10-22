@@ -9,7 +9,8 @@ const Replay = require("./replay.model");
 const VideosReport = require("./VideosReposts.model");
 const Feedback = require("./feedback.model");
 const Files = require("./files.model");
-const CRUD = require('../collectionsAtAll/DB_CRUD')
+const CRUD = require('../collectionsAtAll/DB_CRUD');
+const Announcements = require("./announcement.model");
 
 var config;
 if (process.env.DATABASE_URL) {
@@ -31,7 +32,7 @@ if (process.env.DATABASE_URL) {
 
 const db = new Sequelize(
   process.env.DATABASE_URL ||
-    "postgres://postgres:1234@127.0.0.1:5432/edu",
+    "postgres://bayan:123456@127.0.0.1:5432/postgres",
   config
 );
 
@@ -43,7 +44,7 @@ const CoursesDB = Courses(db, DataTypes);
 const ReplayDB = Replay(db, DataTypes);
 const VideosReportsDB = VideosReport(db, DataTypes);
 const FilesDB = Files(db, DataTypes);
-
+const AnnouncementDB = Announcements(db,DataTypes);
 
 // RelationShip
 
@@ -162,13 +163,26 @@ VideosReportsDB.belongsTo(VideosDB, {
   foreignKey: 'videoID',
 });
 
-// collectiosn 
+// collection 
 
 const commentCollection = new CRUD(CommentDB);
 const videoCollection = new CRUD(VideosDB);
 const courseCollection = new CRUD(CoursesDB);
 const reportsCollection = new CRUD(VideosReportsDB);
 const filesCollection = new CRUD(FilesDB);
+
+// course One-to-Many video
+
+UsersDB.hasMany(AnnouncementDB, {
+  foreignKey: "userID",
+  onDelete: "cascade",
+});
+
+AnnouncementDB.belongsTo(UsersDB, {
+  foreignKey: "userID",
+});
+
+
 
 
 module.exports = {
@@ -186,4 +200,5 @@ module.exports = {
   ReplayDB,
   VideosReportsDB,
   FeedbackDB,
+  AnnouncementDB
 };
