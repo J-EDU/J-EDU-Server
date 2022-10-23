@@ -14,10 +14,10 @@ const __addCourse = async (req, res, next) => {
 const __deleteCourse = async (req, res, next) => {
   try {
     let id = req.params.id;
-    let deletedCourse= await courseCollection.DELETE(id)
+    let deletedCourse= await courseCollection.DELETE(id,req.user.role,req.user.id)
     if(deletedCourse)
     return res.status(200).json({msg:"Ok"});
-    return res.status(404).json({msg:"No Course"});
+    return res.status(404).json({msg:"No Course OR you are not Authoize to delete"});
   
   } catch (err) {
     next(`Error courseCRUD.js ~ line 24 : ${err}`);

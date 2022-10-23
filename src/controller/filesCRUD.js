@@ -8,6 +8,7 @@ const __addFiles = async (req, res, next) => {
   try {
     if(req.files){
     const result = await cloudinary.upload_file(req.files.file.tempFilePath);
+     console.log("Hassan ~ file: filesCRUD.js ~ line 11 ~ req.files.file.tempFilePath", req.files.file.tempFilePath)
      const createdFile = await filesCollection.CREATE({...req.body,URL :result.url,cloudinary_id:result.public_id ,userID:req.user.id});
      res.status(200).send(createdFile);
     }

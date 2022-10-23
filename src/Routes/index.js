@@ -12,6 +12,7 @@ const reports = require("./videoReport");
 const files = require("./files");
 const replay = require("./replay");
 const quiz = require("./quiz");
+const certeficate = require("./certeficate");
 const __isBlocked = require('../middlewares/__userMiddlewares/__isBlocked');
 const __isAuth = require('../middlewares/__userMiddlewares/__isAuth');
 const announcement = require("./announcement");
@@ -32,6 +33,7 @@ router.use('/replay',__isAuth,replay )
 router.use('/files',__isAuth,files )
 router.use('/announcement',announcement )
 router.use('/quiz',quiz )
+router.use('/certificate',certeficate )
 
 
 module.exports = router;
