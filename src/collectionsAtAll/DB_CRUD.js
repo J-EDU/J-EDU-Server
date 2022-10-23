@@ -45,11 +45,12 @@ class CRUD {
     try {
       const record = await this.model.findOne({where:{id}});
       if (record) {
-        return await record.update(newPayload);
+        return await record.update({...record, ...newPayload });
       } else {
         return null;
       }
     } catch (err) {
+      console.log("Hassan ~ file: DB_CRUD.js ~ line 53 ~ err", err)
       throw new Error(err);
     }
   }

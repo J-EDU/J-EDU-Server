@@ -11,6 +11,7 @@ const feedback = require("./feedback");
 const reports = require("./videoReport");
 const files = require("./files");
 const replay = require("./replay");
+const quiz = require("./quiz");
 const __isBlocked = require('../middlewares/__userMiddlewares/__isBlocked');
 const __isAuth = require('../middlewares/__userMiddlewares/__isAuth');
 
@@ -29,6 +30,8 @@ router.use('/feedback',__isAuth,feedback)
 router.use('/report',__isAuth,reports )
 router.use('/replay',__isAuth,replay )
 router.use('/files',__isAuth,files )
+router.use('/quiz',quiz )
+
 
 
 module.exports = router;

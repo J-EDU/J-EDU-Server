@@ -13,6 +13,10 @@ const UsersModel = (sequelize,DataTypes)=>sequelize.define('users', {
       allowNull: false,
       isEmail : true
     },
+    gender: {
+      type:   DataTypes.ENUM,
+      values: ['Male', 'Female']
+    },
     password: {
       type: DataTypes.STRING,
       allowNull: false
@@ -37,6 +41,10 @@ const UsersModel = (sequelize,DataTypes)=>sequelize.define('users', {
       type: DataTypes.STRING,
       defaultValue : "student",
       allowNull:false
+    },
+    cloudinary_id: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
     URL: {
       type: DataTypes.STRING,
