@@ -45,20 +45,25 @@ class CRUD {
     try {
       const record = await this.model.findOne({where:{id}});
       if (record) {
-        return await record.update(newPayload);
+        if(userID === record.userID)
+             return await record.update({...record, ...newPayload });
+        return null
       } else {
         return null;
       }
     } catch (err) {
+      console.log("Hassan ~ file: DB_CRUD.js ~ line 53 ~ err", err)
       throw new Error(err);
     }
   }
 
-  async DELETE(id) {
+  async DELETE(recordId,role,userID) {
     try {
-      const record = await this.model.findOne({ where: { id } });
+      const record = await this.model.findOne({ where: { id:recordId } });
       if (record) {
-        return await record.destroy();
+        if(role === 'admin' || userID === record.userID)
+            return await record.destroy();
+        return null
       } else {
         return null;
       }

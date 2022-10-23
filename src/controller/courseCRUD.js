@@ -1,9 +1,7 @@
 /* eslint-disable*/
-const { VideosDB, CoursesDB, CommentDB, courseCollection, FilesDB } = require("../models");
+const { VideosDB, CommentDB, courseCollection, FilesDB, QuestionDB, QuizDB } = require("../models");
 
 const __addCourse = async (req, res, next) => {
-
-
 	try {
 		let tag = req.body.tag
 		let fullName = req.body.fullName.split(" ");
@@ -41,17 +39,20 @@ const __addCourse = async (req, res, next) => {
 	}
 };
 
-const __deleteCourse = async (req, res, next) => {
-	try {
-		let id = req.params.id;
-		let deletedCourse = await courseCollection.DELETE(id)
-		if (deletedCourse)
-			return res.status(200).json({ msg: "Ok" });
-		return res.status(404).json({ msg: "No Course" });
 
-	} catch (err) {
-		next(`Error courseCRUD.js ~ line 24 : ${err}`);
-	}
+
+const __deleteCourse = async (req, res, next) => {
+  try {
+    let id = req.params.id;
+    let deletedCourse= await courseCollection.DELETE(id,req.user.role,req.user.id)
+    if(deletedCourse)
+    return res.status(200).json({msg:"Ok"});
+    return res.status(404).json({msg:"No Course OR you are not Authoize to delete"});
+  
+  } catch (err) {
+    next(`Error courseCRUD.js ~ line 24 : ${err}`);
+  }
+
 };
 
 const __updateCourse = async (req, res, next) => {
@@ -78,25 +79,28 @@ const __updateCourse = async (req, res, next) => {
 
 const __getCourses = async (req, res, next) => {
 
-	try {
-		const courses = await courseCollection.READ_ALL(
-			[
-				{
-					model: VideosDB,
-					include: [{ model: CommentDB }],
-				},
-				{
-					model: FilesDB,
-				},
-			]
-		)
-		if (courses)
-			return res.status(200).json({ courses });
-		return res.status(201).json({ msg: "there is no Courses" });
-
-	} catch (err) {
-		next(` courseCRUD.js ~ line 55  ${err}`)
-	}
+  try {
+    const courses = await courseCollection.READ_ALL(
+      [
+        {
+          model: VideosDB,
+          include: [{ model: CommentDB }],
+        },
+        {
+          model: FilesDB,
+        },
+        {
+          model: QuizDB,
+        }
+      ]
+    )
+    if(courses)
+      return res.status(200).json({courses});
+      return res.status(201).json({msg : "there is no Courses"});
+  
+  } catch (err) {
+    next(` courseCRUD.js ~ line 55  ${err}`)
+  }
 };
 
 module.exports = {
