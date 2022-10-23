@@ -1,7 +1,9 @@
 /* eslint-disable*/
 const { UsersDB } = require("../models");
+const cloudinaryClass = require("../collectionsAtAll/CloudinaryClass");
 const bcrypt = require("bcrypt");
 const base = require("base-64");
+const cloudinary = new cloudinaryClass()
 
 const __login = async (req, res, next) => {
 
@@ -34,7 +36,18 @@ const __signup = async (req, res, next) => {
 
         const user =await UsersDB.findOne({ where: { email } });
         if(!user){
-            const user = await UsersDB.create({...req.body,password : hashedPassword,URL :req.mediaUrl,cloudinary_id: req.cloudinary_id});
+          let url = "https://res.cloudinary.com/dybwswkzr/image/upload/v1666480803/Avatars/noPic_cjpw0p.png";
+          let public_id = null;
+          if(req.files){
+            const result= await cloudinary.upload_avatar(req.files.image.tempFilePath)
+            public_id= result.public_id;
+            url = result.url 
+          }
+          const user = await UsersDB.create({
+            ...req.body,password : hashedPassword,
+            URL :url,
+            cloudinary_id: public_id
+          });
             res.status(200).json({user});
             return;
         }else{
