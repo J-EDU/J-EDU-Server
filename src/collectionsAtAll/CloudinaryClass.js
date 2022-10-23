@@ -18,7 +18,7 @@ class CloudinaryClass{
       return await cloudinary.uploader.upload(video,{
             public_id: `${Date.now()}`,
             resource_type: "video",
-            folder: "videos"
+            folder: "Videos"
         })
       } catch (err) {
         throw new Error(err);
@@ -30,7 +30,7 @@ class CloudinaryClass{
             return await cloudinary.uploader.upload(image,{
               public_id: `${Date.now()}`,
               resource_type: "image",
-              folder: "images"
+              folder: "Images"
           })
         } catch (err) {
           throw new Error(err);
@@ -42,7 +42,7 @@ class CloudinaryClass{
            return await cloudinary.uploader.upload(file,{
                 public_id: `${Date.now()}`,
                 resource_type: "auto",
-                folder: "files"
+                folder: "Files"
             })
         } catch (err) {
           throw new Error(err);
@@ -54,7 +54,7 @@ class CloudinaryClass{
            return await cloudinary.uploader.upload(avatar,{
                 public_id: `${Date.now()}`,
                 resource_type: "image",
-                folder: "avatar"
+                folder: "Avatars"
             })
         } catch (err) {
           throw new Error(err);
@@ -106,7 +106,6 @@ class CloudinaryClass{
        const result = await cloudinary.uploader.destroy(public_id);
         return result.result;
       } catch (err) {
-        console.log("Hassan ~ file: CloudinaryClass.js ~ line 100 ~ err", err)
         throw new Error(err);
       }
     }

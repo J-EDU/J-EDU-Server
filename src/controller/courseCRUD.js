@@ -1,8 +1,9 @@
 /* eslint-disable*/
-const { VideosDB, CoursesDB, CommentDB, courseCollection, FilesDB } = require("../models");
+const { VideosDB, CommentDB, courseCollection, FilesDB, QuestionDB, QuizDB } = require("../models");
 
 const __addCourse = async (req, res, next) => {
   try {
+    
     let createdCourse = await courseCollection.CREATE({...req.body,userID:req.user.id})
     res.status(201).json(createdCourse);
   } catch (err) {
@@ -57,6 +58,9 @@ const __getCourses = async (req, res, next) => {
         {
           model: FilesDB,
         },
+        {
+          model: QuizDB,
+        }
       ]
     )
     if(courses)
