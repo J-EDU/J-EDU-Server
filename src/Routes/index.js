@@ -15,13 +15,13 @@ const quiz = require("./quiz");
 const __isBlocked = require('../middlewares/__userMiddlewares/__isBlocked');
 const __isAuth = require('../middlewares/__userMiddlewares/__isAuth');
 const announcement = require("./announcement");
-
+// const certificate = require ("./certificate")
 router.get('/', (req, res) => {
   res.json({
     message: 'hello ',
   });
 });
-
+// router.use('/certificate',certificate)
 router.use('/user',users );
 router.use('/video',videos );
 router.use('/comment',comments)

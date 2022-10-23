@@ -12,18 +12,18 @@ const __login = async (req, res, next) => {
     const email = userinfo[0];
     const password = userinfo[1];
     try {
-      const user = await UsersDB.findOne({ where: { email } });
+      const user = await UsersDB.findOne({ where: { email:email } });
       if (user) {
         const isAuth = await bcrypt.compare(password, user.password);
         if (!isAuth) return next({ message: `The password is not correct` });
         res.status(200).json({ user });
         return;
       } else {
-        res.status(409).json({ messgae: "User Not Found" });
+        res.status(401).json({ messgae: "Invalid Credentials" });
         return;
       }
     } catch (error) {
-      next({ message: `Error happend in signin ${error}` });
+      next({ message: `Error happend in signin ${error}` }), 404;
     }
 };
 
@@ -31,7 +31,7 @@ const __signup = async (req, res, next) => {
     const {email,password,role} = req.body;
 
     const hashedPassword = await bcrypt.hash(password, 10);
-   
+    console.log(email)
     try {
 
         const user =await UsersDB.findOne({ where: { email } });

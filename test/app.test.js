@@ -1,15 +1,14 @@
-const request = require('supertest');
+const request = require('supertest')
+const {app} = require('../src/app.js')
 
-const app = require('../src/app');
-
-describe('GET /', () => {
-  it('responds with a json message', (done) => {
-    request(app)
-      .get('/')
-      .set('Accept', 'application/json')
-      .expect('Content-Type', /json/)
-      .expect(200, {
-        message: 'Home',
-      }, done);
-  });
-});
+describe('Post Endpoints', () => {
+    it('should be not signd up', async () => {
+      const res = await request(app)
+        .post('/root/user/signup')
+        .send({
+          email: "admin4@gmail.com",
+          password: 'Hasannasd#05',
+        })
+      expect(res.statusCode).toEqual(401)
+    })
+  })

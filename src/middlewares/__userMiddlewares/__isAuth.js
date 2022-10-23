@@ -24,7 +24,7 @@ const ___isAuth = async (req, res, next) => {
         req.user = user;
         next();
       } else {
-        res.status(409).json({ messgae: "User Not Found" });
+        res.status(404).json({ messgae: "Invalid credintials" });
         return;
       }
     } else {

@@ -36,6 +36,17 @@ class CloudinaryClass{
           throw new Error(err);
         }
       }
+      async upload_announcment(announcment) {
+        try {
+            return await cloudinary.uploader.upload(announcment,{
+              public_id: `${Date.now()}`,
+              resource_type: "image",
+              folder: "announcment"
+          })
+        } catch (err) {
+          throw new Error(err);
+        }
+      }
 
       async upload_file(file) {
         try {

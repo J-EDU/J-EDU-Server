@@ -24,8 +24,8 @@ const __isBlocked = async (req, res, next) => {
         return;
       }
 
-    }else{
-    console.log("Hassan ~ type", "Basic")
+    }
+    else{
     const userinfo = base.decode(auth).split(":");
    email = userinfo[0];
   }
@@ -39,16 +39,16 @@ if(email){
                 req.user = user;
                 next();
             }else{
-                res.status(409).json({ messgae: "You'ar blocked user " });
+                res.status(401).json({ messgae: "You'ar blocked user" });
                 return;    
             }
           } else {
-            res.status(409).json({ messgae: "User Not Found" });
+            res.status(400).json({ messgae: "Invalid Credentials" });
             return;
           }
       
       } catch (error) {
-        res.status(409).json({ messgae: "DB is notWokrin" });
+        res.status(500).json({ messgae: "Internal Server Error" });
 
       }
 
