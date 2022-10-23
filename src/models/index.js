@@ -9,8 +9,12 @@ const Replay = require("./replay.model");
 const VideosReport = require("./VideosReposts.model");
 const Feedback = require("./feedback.model");
 const Files = require("./files.model");
-const CRUD = require('../collectionsAtAll/DB_CRUD');
 const Announcements = require("./announcement.model");
+const Quizs = require("./quizFolder/quizs.model");
+const Quesion = require("./quizFolder/quizQuestion.model");
+const Option = require("./quizFolder/quizQuestionOption.model");
+const CRUD = require('../collectionsAtAll/DB_CRUD')
+
 
 var config;
 if (process.env.DATABASE_URL) {
@@ -45,10 +49,42 @@ const ReplayDB = Replay(db, DataTypes);
 const VideosReportsDB = VideosReport(db, DataTypes);
 const FilesDB = Files(db, DataTypes);
 const AnnouncementDB = Announcements(db,DataTypes);
+const QuizDB = Quizs(db, DataTypes);
+const QuestionDB = Quesion(db, DataTypes);
+const OptionDB = Option(db, DataTypes);
+
 
 // RelationShip
 
+// Quiz RelationShip
+CoursesDB.hasMany(QuizDB, {
+  foreignKey: "courseID",
+  onDelete: "cascade",
+});
+QuizDB.belongsTo(CoursesDB, {
+  foreignKey: "courseID",
+});
+
+QuizDB.hasMany(QuestionDB, {
+  foreignKey: "quizID",
+  onDelete: "cascade",
+});
+QuestionDB.belongsTo(QuizDB, {
+  foreignKey: "quizID",
+});
+
+QuestionDB.hasMany(OptionDB, {
+  foreignKey: "questionID",
+  onDelete: "cascade",
+});
+OptionDB.belongsTo(QuestionDB, {
+  foreignKey: "questionID",
+});
+
+
 // User One-to-Many comments
+
+
 
 UsersDB.hasMany(CommentDB, {
   foreignKey: "userID",
@@ -170,6 +206,11 @@ const videoCollection = new CRUD(VideosDB);
 const courseCollection = new CRUD(CoursesDB);
 const reportsCollection = new CRUD(VideosReportsDB);
 const filesCollection = new CRUD(FilesDB);
+const feedbackCollection = new CRUD(FeedbackDB);
+const quizCollection = new CRUD(QuizDB);
+const questionCollection = new CRUD(QuestionDB);
+const optionCollection = new CRUD(OptionDB);
+const userCollection = new CRUD(UsersDB);
 
 // course One-to-Many video
 
@@ -188,6 +229,14 @@ AnnouncementDB.belongsTo(UsersDB, {
 module.exports = {
   db,
   FilesDB,
+  QuizDB,
+  userCollection,
+  QuestionDB,
+  questionCollection,
+  optionCollection,
+  OptionDB,
+  feedbackCollection,
+  quizCollection,
   commentCollection,
   videoCollection,
   courseCollection,
