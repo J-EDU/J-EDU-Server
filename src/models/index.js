@@ -9,6 +9,7 @@ const Replay = require("./replay.model");
 const VideosReport = require("./VideosReposts.model");
 const Feedback = require("./feedback.model");
 const Files = require("./files.model");
+const wishList=require('./wishList.model')
 const CRUD = require('../collectionsAtAll/DB_CRUD')
 
 var config;
@@ -31,7 +32,7 @@ if (process.env.DATABASE_URL) {
 
 const db = new Sequelize(
   process.env.DATABASE_URL ||
-    "postgres://postgres:1234@127.0.0.1:5432/edu",
+    "postgres://rubaalbrezat:123@127.0.0.1:5432/postgres",
   config
 );
 
@@ -43,7 +44,7 @@ const CoursesDB = Courses(db, DataTypes);
 const ReplayDB = Replay(db, DataTypes);
 const VideosReportsDB = VideosReport(db, DataTypes);
 const FilesDB = Files(db, DataTypes);
-
+const wishListDB = wishList(db, DataTypes);
 
 // RelationShip
 
@@ -162,6 +163,23 @@ VideosReportsDB.belongsTo(VideosDB, {
   foreignKey: 'videoID',
 });
 
+//whishList / Courses  many to many
+wishListDB.hasMany(CoursesDB, {
+	foreignKey: 'courseID',
+  })
+  CoursesDB.belongsTo(wishListDB, {
+	foreignKey: 'courseID',
+  
+  })
+  
+  //whishList / users  one to one
+  UsersDB.hasOne(wishListDB, {
+	foreignKey: 'userID',
+  });
+  wishListDB.belongsTo(UsersDB, {
+	foreignKey: 'userID',
+  });
+
 // collectiosn 
 
 const commentCollection = new CRUD(CommentDB);
@@ -186,4 +204,5 @@ module.exports = {
   ReplayDB,
   VideosReportsDB,
   FeedbackDB,
+  wishListDB
 };

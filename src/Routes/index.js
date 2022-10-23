@@ -11,8 +11,10 @@ const feedback = require("./feedback");
 const reports = require("./videoReport");
 const files = require("./files");
 const replay = require("./replay");
+const whishList = require('./wishList')
 const __isBlocked = require('../middlewares/__userMiddlewares/__isBlocked');
 const __isAuth = require('../middlewares/__userMiddlewares/__isAuth');
+
 
 
 router.get('/', (req, res) => {
@@ -29,6 +31,7 @@ router.use('/feedback',__isAuth,feedback)
 router.use('/report',__isAuth,reports )
 router.use('/replay',__isAuth,replay )
 router.use('/files',__isAuth,files )
+router.use('/wishList',whishList)
 
 
 module.exports = router;
