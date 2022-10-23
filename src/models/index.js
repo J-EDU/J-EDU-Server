@@ -9,11 +9,12 @@ const Replay = require("./replay.model");
 const VideosReport = require("./VideosReposts.model");
 const Feedback = require("./feedback.model");
 const Files = require("./files.model");
+const Announcements = require("./announcement.model");
 const Quizs = require("./quizFolder/quizs.model");
 const Quesion = require("./quizFolder/quizQuestion.model");
 const Option = require("./quizFolder/quizQuestionOption.model");
-
 const CRUD = require('../collectionsAtAll/DB_CRUD')
+
 
 var config;
 if (process.env.DATABASE_URL) {
@@ -35,7 +36,7 @@ if (process.env.DATABASE_URL) {
 
 const db = new Sequelize(
   process.env.DATABASE_URL ||
-    "postgres://postgres:1234@127.0.0.1:5432/edu",
+    "postgres://bayan:123456@127.0.0.1:5432/postgres",
   config
 );
 
@@ -47,6 +48,7 @@ const CoursesDB = Courses(db, DataTypes);
 const ReplayDB = Replay(db, DataTypes);
 const VideosReportsDB = VideosReport(db, DataTypes);
 const FilesDB = Files(db, DataTypes);
+const AnnouncementDB = Announcements(db,DataTypes);
 const QuizDB = Quizs(db, DataTypes);
 const QuestionDB = Quesion(db, DataTypes);
 const OptionDB = Option(db, DataTypes);
@@ -77,6 +79,17 @@ QuestionDB.hasMany(OptionDB, {
 });
 OptionDB.belongsTo(QuestionDB, {
   foreignKey: "questionID",
+});
+
+// course One-to-Many video
+
+UsersDB.hasMany(AnnouncementDB, {
+  foreignKey: "userID",
+  onDelete: "cascade",
+});
+
+AnnouncementDB.belongsTo(UsersDB, {
+  foreignKey: "userID",
 });
 
 
@@ -197,7 +210,7 @@ VideosReportsDB.belongsTo(VideosDB, {
   foreignKey: 'videoID',
 });
 
-// collectiosn 
+// collection 
 
 const commentCollection = new CRUD(CommentDB);
 const videoCollection = new CRUD(VideosDB);
@@ -234,4 +247,5 @@ module.exports = {
   ReplayDB,
   VideosReportsDB,
   FeedbackDB,
+  AnnouncementDB
 };
