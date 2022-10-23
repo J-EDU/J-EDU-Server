@@ -1,11 +1,10 @@
 const request = require('supertest');
 
-const app = require('../src/app');
+const app = require('../src');
 
 describe('/root/user/', () => {
   it('responds with a json message', (done) => {
-    request(app)
-      .get('/root/user')
+    request(app).get('/root/user')
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(200, {
@@ -25,3 +24,6 @@ describe('GET /root/user/getusers', () => {
       }, done);
   });
 });
+
+
+

@@ -11,7 +11,7 @@ router.get('/',__getCourses );
 router.delete('/deletecourse/:id',___isAuth,__deleteCourse );
 router.post('/addCourse',___isAuth,__addCourse);
 router.put('/updateCourse/:id',___isAuth,__updateCourse);
-router.get('/search',__search);
+router.get("/search",__search);
 
 
 
