@@ -15,6 +15,8 @@ const quiz = require("./quiz");
 const __isBlocked = require('../middlewares/__userMiddlewares/__isBlocked');
 const __isAuth = require('../middlewares/__userMiddlewares/__isAuth');
 const announcement = require("./announcement");
+const category = require("./category")
+
 
 router.get('/', (req, res) => {
   res.json({
@@ -32,6 +34,6 @@ router.use('/replay',__isAuth,replay )
 router.use('/files',__isAuth,files )
 router.use('/announcement',announcement )
 router.use('/quiz',quiz )
-
+router.use('/category',category)
 
 module.exports = router;

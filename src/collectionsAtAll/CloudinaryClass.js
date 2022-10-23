@@ -37,6 +37,18 @@ class CloudinaryClass{
         }
       }
 
+      async upload_announcement(announcement) {
+        try {
+            return await cloudinary.uploader.upload(announcement,{
+              public_id: `${Date.now()}`,
+              resource_type: "image",
+              folder: "Announcement"
+          })
+        } catch (err) {
+          throw new Error(err);
+        }
+      }
+
       async upload_file(file) {
         try {
            return await cloudinary.uploader.upload(file,{
@@ -76,6 +88,22 @@ class CloudinaryClass{
        const result = await cloudinary.uploader.destroy(
           public_id,
           { type: "upload", resource_type: "video" },
+          (result) => {
+            return result;
+          }
+        );
+        return result.result;
+      } catch (err) {
+        throw new Error(err);
+      }
+    }
+
+
+    async delete_announcement(public_id) {
+      try {
+       const result = await cloudinary.uploader.destroy(
+          public_id,
+          { type: "upload", resource_type: "image" },
           (result) => {
             return result;
           }

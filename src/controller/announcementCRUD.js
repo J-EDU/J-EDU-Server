@@ -1,68 +1,63 @@
 /* eslint-disable*/
 
-const {AnnouncementDB} = require("../models");
+const {AnnouncementDB,announcementCollection} = require("../models");
+const cloudinaryClass = require("../collectionsAtAll/CloudinaryClass");
 
+const cloudinary = new cloudinaryClass()
 
 const __addAnnouncement = async (req, res, next) => {
-    try {
-      const announceData = {
-        userID: req.user.id,
-        text: req.body.text,
-      };
-      let createdAnnounce = await AnnouncementDB.create(announceData);
-      res.status(200).json(createdAnnounce);
-    } catch (err) {
-      next(`errror inside addAnnouncement function ${err}`);
+  try {
+    if(req.files){
+    const result = await cloudinary.upload_file(req.files.announcement.tempFilePath);
+     const createdAnnouncement = await announcementCollection.CREATE({...req.body,URL :result.url,cloudinary_id:result.public_id ,userID:req.user.id});
+     res.status(200).send(createdAnnouncement);
     }
+    else{
+     res.status(404).send("please provide announcement");
+    }
+  } catch (err) {
+    next(`Error inside add announcement function : ${err}`);
+  }
 };
 
 const __deleteAnnouncement = async (req, res, next) => {
   try {
     let id = req.params.id;
-    let deletedAnnounce = await AnnouncementDB.destroy({ where: { id } });
-    if(deletedAnnounce)
-      return res.status(200).json({msg:"Ok"});
-      return res.status(404).json({msg:"No Announcement"});
-    
+    const file = await announcementCollection.READ_ONE(id);
+    await announcementCollection.DELETE(id);
+    if(file){
+      let result =  await cloudinary.delete_file(file.cloudinary_id)
+      res.status(202).json({result})
+      return;
+    }
+    else{
+      res.status(301).json({"msg" : "there is no File with this id "})
+
+    }
+
   } catch (err) {
-    next(`error inside deleteAnnouncement function ${err}`);
+    console.log("Hassan ~ err", err)
+    next(`Error inside deleteFile function : ${err}`);
   }
 };
+
+
+
 
 const __getAnnouncement = async (req, res, next) => {
   try {
-    const announcement = await AnnouncementDB.findAll();
-    const announceData = announcement.map((item, idx) => {
-      return {
-        id: item.id,
-        text: item.text
-        
-      };
-    });
-    res.announcement = AnnouncementDB;
-    res.status(200).json({ announceData });
+    const files = await announcementCollection.READ_ALL();
+    res.status(200).json({files});
     return;
-  } catch (err) {
-    next(`error inside getAnnouncement function ${err}`);
+  } catch (error) {
+    next(`Error happend in getAllAnnouncements ${error}`)
   }
 };
 
-const __updateAnnouncement = async (req, res, next) => {
-  try {
-    const id = req.params.id;
-    const newAnnounce = req.body;
-    const updated = await AnnouncementDB.update(newAnnounce,{ where: { id } })
-    if(updated)
-     return res.status(200).json({ updated });
-     return res.status(404).json({ msg : "there is no announcement" });
-  } catch (err) {
-   next(`error inside updateAnnouncement function ${err}`);
-  }
-};
 
 module.exports = {
   __addAnnouncement,
   __deleteAnnouncement,
   __getAnnouncement,
-  __updateAnnouncement
+  
 };
