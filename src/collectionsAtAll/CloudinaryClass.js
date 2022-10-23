@@ -25,6 +25,46 @@ class CloudinaryClass{
       }
     }
 
+    async do_Certificate(data) {
+      try {
+
+        let  today 		= new Date();
+        let  dd 		= String(today.getDate()).padStart(2, '0');
+        let  mm 		= String(today.getMonth() + 1).padStart(2, '0'); //janvier = 0
+        let  yyyy 		= today.getFullYear();
+        let date = `${yyyy}-${mm}-${dd}`;
+  
+        let result=cloudinary.image("cert_nqhq7p", 
+        {
+          transformation: [
+          {width: 500 ,crop: "scale"},
+          {color: "#000000", overlay: {font_family: "Times", font_size: 15, font_weight: "bold", text: `${data.course}` }},
+          {flags: "layer_apply", gravity: "center", y: -34},
+
+          {width: 500 ,crop: "scale"},
+          {color: "#03A5C7", overlay: {font_family: "Sacramento", font_size: 30, font_weight: "bold", text: `${data.name}`}},
+          {flags: "layer_apply", gravity: "center", y: 36},
+          
+
+          {width: 500 ,crop: "scale"},
+          {color: "#000000", overlay: {font_family: "Sacramento", font_size: 10, font_weight: "bold", text: `${date}`}},
+          {flags: "layer_apply", gravity: "center",x:100,y: 105}
+
+          ]
+         
+        }
+
+        )
+        const src = result.split("'")
+        console.log("Hassan ~ file: CloudinaryClass.js ~ line 48 ~ src", src)
+
+          return src[1]
+    
+      } catch (err) {
+        throw new Error(err);
+      }
+    }
+
     async upload_image(image) {
         try {
             return await cloudinary.uploader.upload(image,{

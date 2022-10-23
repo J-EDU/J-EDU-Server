@@ -9,6 +9,7 @@ const Replay = require("./replay.model");
 const VideosReport = require("./VideosReposts.model");
 const Feedback = require("./feedback.model");
 const Files = require("./files.model");
+const wishList=require('./wishList.model')
 const Announcements = require("./announcement.model");
 const Quizs = require("./quizFolder/quizs.model");
 const Quesion = require("./quizFolder/quizQuestion.model");
@@ -48,6 +49,7 @@ const CoursesDB = Courses(db, DataTypes);
 const ReplayDB = Replay(db, DataTypes);
 const VideosReportsDB = VideosReport(db, DataTypes);
 const FilesDB = Files(db, DataTypes);
+const wishListDB = wishList(db, DataTypes);
 const AnnouncementDB = Announcements(db,DataTypes);
 const QuizDB = Quizs(db, DataTypes);
 const QuestionDB = Quesion(db, DataTypes);
@@ -210,7 +212,26 @@ VideosReportsDB.belongsTo(VideosDB, {
   foreignKey: 'videoID',
 });
 
-// collection 
+
+//whishList / Courses  many to many
+wishListDB.hasMany(CoursesDB, {
+	foreignKey: 'courseID',
+  })
+  CoursesDB.belongsTo(wishListDB, {
+	foreignKey: 'courseID',
+  
+  })
+  
+  //whishList / users  one to one
+  UsersDB.hasOne(wishListDB, {
+	foreignKey: 'userID',
+  });
+  wishListDB.belongsTo(UsersDB, {
+	foreignKey: 'userID',
+  });
+
+// collectiosn 
+
 
 const commentCollection = new CRUD(CommentDB);
 const videoCollection = new CRUD(VideosDB);
@@ -247,5 +268,6 @@ module.exports = {
   ReplayDB,
   VideosReportsDB,
   FeedbackDB,
+  wishListDB,
   AnnouncementDB
 };
