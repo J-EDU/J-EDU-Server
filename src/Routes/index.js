@@ -34,6 +34,4 @@ router.use('/announcement',announcement )
 router.use('/quiz',quiz )
 
 
-
-
 module.exports = router;

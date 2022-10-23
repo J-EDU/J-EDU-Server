@@ -81,6 +81,17 @@ OptionDB.belongsTo(QuestionDB, {
   foreignKey: "questionID",
 });
 
+// course One-to-Many video
+
+UsersDB.hasMany(AnnouncementDB, {
+  foreignKey: "userID",
+  onDelete: "cascade",
+});
+
+AnnouncementDB.belongsTo(UsersDB, {
+  foreignKey: "userID",
+});
+
 
 // User One-to-Many comments
 
@@ -211,19 +222,6 @@ const quizCollection = new CRUD(QuizDB);
 const questionCollection = new CRUD(QuestionDB);
 const optionCollection = new CRUD(OptionDB);
 const userCollection = new CRUD(UsersDB);
-
-// course One-to-Many video
-
-UsersDB.hasMany(AnnouncementDB, {
-  foreignKey: "userID",
-  onDelete: "cascade",
-});
-
-AnnouncementDB.belongsTo(UsersDB, {
-  foreignKey: "userID",
-});
-
-
 
 
 module.exports = {
