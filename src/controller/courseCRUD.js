@@ -6,7 +6,6 @@ const __addCourse = async (req, res, next) => {
 		let tag = req.body.tag
 		let fullName = req.body.fullName.split(" ");
 		let descreption = req.body.description.split(" ");
-		
 
 
 		tag.push(...fullName)
