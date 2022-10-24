@@ -9,12 +9,13 @@ const Replay = require("./replay.model");
 const VideosReport = require("./VideosReposts.model");
 const Feedback = require("./feedback.model");
 const Files = require("./files.model");
+const wishList=require('./wishList.model')
 const Announcements = require("./announcement.model");
 const Quizs = require("./quizFolder/quizs.model");
 const Quesion = require("./quizFolder/quizQuestion.model");
 const Option = require("./quizFolder/quizQuestionOption.model");
 const CRUD = require('../collectionsAtAll/DB_CRUD')
-
+const Category = require("./category.model")
 
 var config;
 if (process.env.DATABASE_URL) {
@@ -36,7 +37,7 @@ if (process.env.DATABASE_URL) {
 
 const db = new Sequelize(
   process.env.DATABASE_URL ||
-    "postgres://postgres:1234@127.0.0.1:5432/edu",
+    "postgres://rubaalbrezat:123@127.0.0.1:5432/postgres",
   config
 );
 
@@ -48,11 +49,12 @@ const CoursesDB = Courses(db, DataTypes);
 const ReplayDB = Replay(db, DataTypes);
 const VideosReportsDB = VideosReport(db, DataTypes);
 const FilesDB = Files(db, DataTypes);
+const wishListDB = wishList(db, DataTypes);
 const AnnouncementDB = Announcements(db,DataTypes);
 const QuizDB = Quizs(db, DataTypes);
 const QuestionDB = Quesion(db, DataTypes);
 const OptionDB = Option(db, DataTypes);
-
+const CategoryDB = Category(db,DataTypes);
 
 // RelationShip
 
@@ -210,7 +212,26 @@ VideosReportsDB.belongsTo(VideosDB, {
   foreignKey: 'videoID',
 });
 
-// collection 
+
+//whishList / Courses  many to many
+wishListDB.hasMany(CoursesDB, {
+	foreignKey: 'courseID',
+  })
+  CoursesDB.belongsTo(wishListDB, {
+	foreignKey: 'courseID',
+  
+  })
+  
+  //whishList / users  one to one
+  UsersDB.hasOne(wishListDB, {
+	foreignKey: 'userID',
+  });
+  wishListDB.belongsTo(UsersDB, {
+	foreignKey: 'userID',
+  });
+
+// collectiosn 
+
 
 const commentCollection = new CRUD(CommentDB);
 const videoCollection = new CRUD(VideosDB);
@@ -222,8 +243,8 @@ const quizCollection = new CRUD(QuizDB);
 const questionCollection = new CRUD(QuestionDB);
 const optionCollection = new CRUD(OptionDB);
 const userCollection = new CRUD(UsersDB);
-
-
+const announcementCollection = new CRUD(AnnouncementDB);
+const categoryCollection = new CRUD(CategoryDB)
 module.exports = {
   db,
   FilesDB,
@@ -247,5 +268,10 @@ module.exports = {
   ReplayDB,
   VideosReportsDB,
   FeedbackDB,
+  announcementCollection,
+  CategoryDB,
+  categoryCollection,
+  wishListDB,
   AnnouncementDB
+
 };
