@@ -32,7 +32,12 @@ const CoursesModel = (sequelize, DataTypes) =>
           key: "id",
         },
       },
+	  tag:{
+		type :DataTypes.ARRAY(DataTypes.STRING),
+		allowNull: false
+	}
     },
+
     {
       // Options
     }

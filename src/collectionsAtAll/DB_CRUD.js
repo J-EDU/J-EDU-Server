@@ -45,7 +45,9 @@ class CRUD {
     try {
       const record = await this.model.findOne({where:{id}});
       if (record) {
-        return await record.update({...record, ...newPayload });
+        if(userID === record.userID)
+             return await record.update({...record, ...newPayload });
+        return null
       } else {
         return null;
       }
@@ -55,11 +57,13 @@ class CRUD {
     }
   }
 
-  async DELETE(id) {
+  async DELETE(recordId,role,userID) {
     try {
-      const record = await this.model.findOne({ where: { id } });
+      const record = await this.model.findOne({ where: { id:recordId } });
       if (record) {
-        return await record.destroy();
+        if(role === 'admin' || userID === record.userID)
+            return await record.destroy();
+        return null
       } else {
         return null;
       }
