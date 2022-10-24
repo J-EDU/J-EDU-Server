@@ -16,6 +16,7 @@ const Quesion = require("./quizFolder/quizQuestion.model");
 const Option = require("./quizFolder/quizQuestionOption.model");
 const CRUD = require('../collectionsAtAll/DB_CRUD')
 const Category = require("./category.model")
+const history=require('./history.model')
 
 var config;
 if (process.env.DATABASE_URL) {
@@ -37,7 +38,7 @@ if (process.env.DATABASE_URL) {
 
 const db = new Sequelize(
   process.env.DATABASE_URL ||
-    "postgres://postgres:1234@127.0.0.1:5432/edu",
+    "postgres://rubaalbrezat:1234@127.0.0.1:5432/postgres",
   config
 );
 
@@ -55,7 +56,7 @@ const QuizDB = Quizs(db, DataTypes);
 const QuestionDB = Quesion(db, DataTypes);
 const OptionDB = Option(db, DataTypes);
 const CategoryDB = Category(db,DataTypes);
-
+const HistoryDB=history(db,DataTypes)
 // RelationShip
 
 // Quiz RelationShip
@@ -213,7 +214,7 @@ VideosReportsDB.belongsTo(VideosDB, {
 });
 
 
-//whishList / Courses  many to many
+//whishList / Courses  one to many
 wishListDB.hasMany(CoursesDB, {
 	foreignKey: 'courseID',
   })
@@ -223,12 +224,34 @@ wishListDB.hasMany(CoursesDB, {
   })
   
   //whishList / users  one to one
+
   UsersDB.hasOne(wishListDB, {
 	foreignKey: 'userID',
   });
   wishListDB.belongsTo(UsersDB, {
 	foreignKey: 'userID',
   });
+
+//historyList/ video one to many
+HistoryDB.hasMany(VideosDB,{
+	foreignKey:'videoID'
+});
+
+VideosDB.belongsTo(HistoryDB,{
+    foreignKey:'videoID'
+});
+
+//historyList / course one to many
+HistoryDB.hasMany(CoursesDB,{
+	foreignKey:'courseID'
+});
+
+CoursesDB.belongsTo(HistoryDB,{
+    foreignKey:'courseID'
+});
+
+
+
 
 // collectiosn 
 
@@ -272,6 +295,7 @@ module.exports = {
   CategoryDB,
   categoryCollection,
   wishListDB,
-  AnnouncementDB
+  AnnouncementDB,
+  HistoryDB
 
 };
