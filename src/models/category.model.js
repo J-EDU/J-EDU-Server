@@ -13,10 +13,19 @@ const CategoryModel = (sequelize, DataTypes) =>
         type: DataTypes.STRING,
         allowNull: false,
       },
-      type: {
-        type: DataTypes.ENUM('IT', 'Finance And Accounting','Marketing','Design'),
-        defaultValue: 'IT'
-      }
+      category: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: '0',
+        validate: {
+            customValidator: (value) => {
+                const enums = ['IT', 'MATH', 'HISTORY']
+                if (!enums.includes(value)) {
+                    throw new Error('not a valid option')
+                }
+            }
+        }
+      },
      
     },
     {

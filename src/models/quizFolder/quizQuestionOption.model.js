@@ -14,8 +14,17 @@ const optionModel = (sequelize, DataTypes) =>
         allowNull: false,
       },
       isCorrect: {
-            type: DataTypes.ENUM('1', '0'),
-            defaultValue: '0'
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: '0',
+        validate: {
+            customValidator: (value) => {
+                const enums = ['0', '1']
+                if (!enums.includes(value)) {
+                    throw new Error('not a valid option')
+                }
+            }
+        }
       },
       questionID: {
         type: DataTypes.UUID,

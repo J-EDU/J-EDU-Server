@@ -3,7 +3,6 @@ const express = require('express');
 const { __getCourses,__deleteCourse,__addCourse,__updateCourse } = require('../../controller/courseCRUD');
 const __search = require('../../middlewares/__courseMiddlrewares/__search');
 const ___isAuth = require('../../middlewares/__userMiddlewares/__isAuth');
-const __search = require('../../middlewares/__userMiddlewares/__search');
 
 
 const router = express.Router();

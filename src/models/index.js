@@ -37,7 +37,7 @@ if (process.env.DATABASE_URL) {
 
 const db = new Sequelize(
   process.env.DATABASE_URL ||
-    "postgres://rubaalbrezat:123@127.0.0.1:5432/postgres",
+    "postgres://postgres:1234@127.0.0.1:5432/edu",
   config
 );
 
