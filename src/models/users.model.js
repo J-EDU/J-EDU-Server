@@ -54,6 +54,14 @@ const UsersModel = (sequelize,DataTypes)=>sequelize.define('users', {
       type: DataTypes.BOOLEAN,
       defaultValue : false,
     },
+    experience:{
+      type: DataTypes.STRING,
+      defaultValue : '',
+    },
+    about:{
+      type: DataTypes.STRING,
+      defaultValue : '',
+    },
 
     token: {
       type: DataTypes.VIRTUAL,

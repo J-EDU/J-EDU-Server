@@ -20,10 +20,17 @@ const AnnouncementModel = (sequelize, DataTypes) =>
         type: DataTypes.STRING,
         allowNull: false,
       },
+
+    URL: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
-    {
-      // Options
-    }
+    cloudinary_id: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+  }
+    
   );
 
 module.exports =AnnouncementModel;
