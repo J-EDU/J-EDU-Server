@@ -20,10 +20,10 @@ const CoursesModel = (sequelize, DataTypes) =>
       category: {
         type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: '0',
+        defaultValue: 'DEVELOPMENT',
         validate: {
             customValidator: (value) => {
-                const enums = ['IT', 'MATH', 'HISTORY']
+                const enums = ['IT AND SOFTWARE','DESIGN','MARKETING','FINANCE AND ACCOUNTING','HEALTH AND FITNESS','BUSINESS','MUSIC','TEACHING AND ACADEMICS','LIFESTYLE','DEVELOPMENT']
                 if (!enums.includes(value)) {
                     throw new Error('not a valid option')
                 }

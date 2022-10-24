@@ -16,6 +16,7 @@ const Quesion = require("./quizFolder/quizQuestion.model");
 const Option = require("./quizFolder/quizQuestionOption.model");
 const CRUD = require('../collectionsAtAll/DB_CRUD')
 
+
 var config;
 if (process.env.DATABASE_URL) {
   config = {
@@ -36,7 +37,7 @@ if (process.env.DATABASE_URL) {
 
 const db = new Sequelize(
   process.env.DATABASE_URL ||
-    "postgres://postgres:1234@127.0.0.1:5432/edu",
+    "postgres://bayan:123456@127.0.0.1:5432/postgres",
   config
 );
 
@@ -242,6 +243,7 @@ const questionCollection = new CRUD(QuestionDB);
 const optionCollection = new CRUD(OptionDB);
 const userCollection = new CRUD(UsersDB);
 const announcementCollection = new CRUD(AnnouncementDB);
+
 module.exports = {
   db,
   FilesDB,
