@@ -1,15 +1,14 @@
 const request = require('supertest');
-
-const app = require('../src/app');
+const {app} = require('../src/app');
 
 describe('GET /', () => {
   it('responds with a json message', (done) => {
     request(app)
-      .get('/')
+      .get('/root/')
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(200, {
-        message: 'Home',
+        message: "hello ",
       }, done);
   });
 });

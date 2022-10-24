@@ -17,19 +17,19 @@ const CoursesModel = (sequelize, DataTypes) =>
         type: DataTypes.STRING,
         allowNull: false,
       },
-      category: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        defaultValue: '0',
-        validate: {
-            customValidator: (value) => {
-                const enums = ['IT', 'MATH', 'HISTORY']
-                if (!enums.includes(value)) {
-                    throw new Error('not a valid option')
-                }
-            }
-        }
-      },
+      // category: {
+      //   type: DataTypes.STRING,
+      //   allowNull: false,
+      //   defaultValue: '0',
+      //   validate: {
+      //       customValidator: (value) => {
+      //           const enums = ['IT', 'MATH', 'HISTORY']
+      //           if (!enums.includes(value)) {
+      //               throw new Error('not a valid option')
+      //           }
+      //       }
+      //   }
+      // },
       language: {
         type: DataTypes.STRING,
         allowNull: false,
