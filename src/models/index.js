@@ -55,7 +55,6 @@ const QuizDB = Quizs(db, DataTypes);
 const QuestionDB = Quesion(db, DataTypes);
 const OptionDB = Option(db, DataTypes);
 
-
 // RelationShip
 
 // Quiz RelationShip

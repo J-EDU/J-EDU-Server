@@ -29,13 +29,26 @@ const UsersModel = (sequelize,DataTypes)=>sequelize.define('users', {
       type: DataTypes.DATE,
       allowNull: false
     },
+    role: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: 'user',
+      validate: {
+          customValidator: (value) => {
+              const enums = ['user', 'admin']
+              if (!enums.includes(value)) {
+                  throw new Error('not a valid option')
+              }
+          }
+      }
+    },
     isBLocked: {
       type: DataTypes.BOOLEAN,
       defaultValue : false,
     },
-    role: {
-      type: DataTypes.STRING,
-      defaultValue : "student",
+    isTeacher: {
+      type: DataTypes.BOOLEAN,
+      defaultValue : false,
       allowNull:false
     },
     cloudinary_id: {

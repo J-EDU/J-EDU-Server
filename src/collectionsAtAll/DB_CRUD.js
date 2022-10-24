@@ -41,7 +41,7 @@ class CRUD {
     }
   }
 
-  async UPDATE(id, newPayload) {
+  async UPDATE(id, newPayload,userID) {
     try {
       const record = await this.model.findOne({where:{id}});
       if (record) {
@@ -56,6 +56,7 @@ class CRUD {
       throw new Error(err);
     }
   }
+ 
 
   async DELETE(recordId,role,userID) {
     try {
