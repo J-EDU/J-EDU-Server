@@ -15,7 +15,6 @@ const Quizs = require("./quizFolder/quizs.model");
 const Quesion = require("./quizFolder/quizQuestion.model");
 const Option = require("./quizFolder/quizQuestionOption.model");
 const CRUD = require('../collectionsAtAll/DB_CRUD')
-const Category = require("./category.model")
 
 var config;
 if (process.env.DATABASE_URL) {
@@ -54,7 +53,6 @@ const AnnouncementDB = Announcements(db,DataTypes);
 const QuizDB = Quizs(db, DataTypes);
 const QuestionDB = Quesion(db, DataTypes);
 const OptionDB = Option(db, DataTypes);
-const CategoryDB = Category(db,DataTypes);
 
 // RelationShip
 
@@ -244,7 +242,6 @@ const questionCollection = new CRUD(QuestionDB);
 const optionCollection = new CRUD(OptionDB);
 const userCollection = new CRUD(UsersDB);
 const announcementCollection = new CRUD(AnnouncementDB);
-const categoryCollection = new CRUD(CategoryDB)
 module.exports = {
   db,
   FilesDB,
@@ -269,8 +266,6 @@ module.exports = {
   VideosReportsDB,
   FeedbackDB,
   announcementCollection,
-  CategoryDB,
-  categoryCollection,
   wishListDB,
   AnnouncementDB
 

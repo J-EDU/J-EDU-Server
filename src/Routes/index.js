@@ -38,7 +38,6 @@ router.use('/files',__isAuth,files )
 router.use('/wishList',whishList)
 router.use('/announcement',announcement )
 router.use('/quiz',quiz )
-router.use('/category',category)
 router.use('/certificate',certeficate )
 
 
