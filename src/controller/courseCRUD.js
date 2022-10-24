@@ -6,7 +6,7 @@ const __addCourse = async (req, res, next) => {
 		let tag = req.body.tag
 		let fullName = req.body.fullName.split(" ");
 		let descreption = req.body.description.split(" ");
-       
+
 
 		tag.push(...fullName)
 		tag.push(...descreption)
@@ -70,7 +70,7 @@ const __updateCourse = async (req, res, next) => {
 		)
 		if (course)
 			return res.status(200).json({ course });
-		return res.status(201).json({ msg: "there is no Courses" });
+			return res.status(201).json({ msg: "there is no Courses" });
 	} catch (err) {
 		next(` courseCRUD.js ~ line 35  ${err}`)
 

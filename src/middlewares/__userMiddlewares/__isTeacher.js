@@ -1,7 +1,7 @@
 /* eslint-disable*/
 const isTeacher = (req, res, next) => {
-  const role = req.user.role;
-  if(role === "teacher"){
+  const isTeacher = req.user.isTeacher;
+  if(isTeacher){
     next()
     return;
   } 
