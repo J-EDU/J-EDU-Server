@@ -26,7 +26,6 @@ const CategoryModel = (sequelize, DataTypes) =>
             }
         }
       },
-     
     },
     {
       // Options

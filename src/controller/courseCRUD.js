@@ -70,7 +70,7 @@ const __updateCourse = async (req, res, next) => {
 		)
 		if (course)
 			return res.status(200).json({ course });
-		return res.status(201).json({ msg: "there is no Courses" });
+			return res.status(201).json({ msg: "there is no Courses" });
 	} catch (err) {
 		next(` courseCRUD.js ~ line 35  ${err}`)
 
