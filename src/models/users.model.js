@@ -3,20 +3,16 @@
 const JWT = require("jsonwebtoken")
 
 const UsersModel = (sequelize,DataTypes)=>sequelize.define('users', {
-  id: {
-    type: DataTypes.UUID,
-    defaultValue: DataTypes.UUIDV4,
-    primaryKey: true,
-  },
-  email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      isEmail : true
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true,
     },
-    gender: {
-      type:   DataTypes.ENUM,
-      values: ['Male', 'Female']
-    },
+    email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        isEmail : true
+      },
     password: {
       type: DataTypes.STRING,
       allowNull: false

@@ -14,8 +14,17 @@ const QuestionModel = (sequelize, DataTypes) =>
         allowNull: false,
       },
       type: {
-        type: DataTypes.ENUM('multi', 'normal'),
-        defaultValue: 'normal'
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: 'multi',
+        validate: {
+            customValidator: (value) => {
+                const enums = ['multi', 'normal']
+                if (!enums.includes(value)) {
+                    throw new Error('not a valid option')
+                }
+            }
+        }
       },
       hint: {
         type: DataTypes.STRING,
