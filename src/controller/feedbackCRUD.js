@@ -28,7 +28,7 @@ const __addFeedback= async (req, res, next) => {
      const deletedFeed= await feedbackCollection.DELETE(id,req.user.role,req.user.id);
 	 if(deletedFeed)
      return  res.status(200).json({ message : "deleted done" });
-	 return res.status(404).json({msg:"operation delete not working"});
+	  return res.status(404).json({msg:"operation delete not working"});
     } catch (err) {
       next(`Error inside deleteFeedback function : ${err}`);
     }
