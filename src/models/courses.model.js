@@ -57,7 +57,6 @@ const CoursesModel = (sequelize, DataTypes) =>
 			// 	},
 			// },
 		},
-
 		{
 			// Options
 		}

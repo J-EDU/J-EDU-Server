@@ -20,7 +20,7 @@ const __isTeacher=require('../middlewares/__userMiddlewares/__isTeacher')
 const announcement = require("./announcement");
 const historyList =require('./HistoryList');
 const commentReport=require('./commentReport')
-
+const watchHistory = require("./watchHistory")
 
 
 
@@ -45,6 +45,8 @@ router.use('/quiz',quiz )
 router.use('/certificate',certeficate )
 router.use('/historyList',historyList)
 router.use('/commentReport',commentReport)
+router.use('/watchhistory',watchHistory )
+
 
 
 module.exports = router;
