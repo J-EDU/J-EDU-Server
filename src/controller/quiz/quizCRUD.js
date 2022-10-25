@@ -28,7 +28,7 @@ const __updateQuiz = async (req, res, next) => {
 	try {
 		let id = req.params.id;
 		let newQuizData = req.body;  
-	let one = 	await quizCollection.UPDATE(id,newQuizData);
+	let quiz = 	await quizCollection.UPDATE(id,newQuizData);
 		let Quiz = await quizCollection.READ_ONE(id,
       [
         {
@@ -38,7 +38,7 @@ const __updateQuiz = async (req, res, next) => {
       ]
       )
     if(Quiz)
-    return res.status(200).json({one});
+    return res.status(200).json({quiz});
     return res.status(201).json({msg : "there is no Quizs"});
 	} catch (err) {
     next(` QuizCRUD.js ~ line 44  ${err}`)

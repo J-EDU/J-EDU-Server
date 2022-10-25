@@ -1,0 +1,23 @@
+1-isBlocked [true,false]
+2-change isAuth to true 
+3-is A teacher 
+4-reset password 
+5-block user to make true middllware
+6-Blocked User []
+7-update Comment 
+8-update video
+9-update course
+10-Update user 
+11-regex  @gmail.com , @hotmail.com  ,@icloud.com , .net ,.org .com
+12-regex  >8 letter , mixed letter numbers and 
+13=finsihed the Vidoo Upload 
+14 = list of teacher 
+15 = list of student 
+
+Team members 
+
+Group 1 : Fawzy , Sedrah [11,12,4,6,5,7]
+
+Group 2 : Ruba, Bayan [9,10,1,2,3,14,15]
+
+Group 3 : Hasan [13 ,8 , Relationship]

@@ -5,12 +5,12 @@ const { UsersDB } = require("../../models");
 const ___isAuth = async (req, res, next) => {
 
   if(!req.headers.authorization){
-    res.send("please add token need token")
+    res.send("please add token or sign in again")
     return;
   }
   const type = req.headers.authorization.split(" ")[0];
   if(type == "Basic"){
-    res.send("no Valid")
+    res.send("no Valid ")
     return;
   }
 
