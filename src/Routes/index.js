@@ -11,13 +11,15 @@ const feedback = require("./feedback");
 const reports = require("./videoReport");
 const files = require("./files");
 const replay = require("./replay");
-const whishList = require('./wishList')
+const whishList = require('./wishList');
 const quiz = require("./quiz");
 const certeficate = require("./certeficate");
 const __isBlocked = require('../middlewares/__userMiddlewares/__isBlocked');
 const __isAuth = require('../middlewares/__userMiddlewares/__isAuth');
+const __isTeacher=require('../middlewares/__userMiddlewares/__isTeacher')
 const announcement = require("./announcement");
-const historyList =require('./HistoryList')
+const historyList =require('./HistoryList');
+const commentReport=require('./commentReport')
 
 
 
@@ -42,6 +44,7 @@ router.use('/announcement',announcement )
 router.use('/quiz',quiz )
 router.use('/certificate',certeficate )
 router.use('/historyList',historyList)
+router.use('/commentReport',commentReport)
 
 
 module.exports = router;

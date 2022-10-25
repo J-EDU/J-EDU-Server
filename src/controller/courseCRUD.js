@@ -46,7 +46,7 @@ const __deleteCourse = async (req, res, next) => {
     let id = req.params.id;
     let deletedCourse= await courseCollection.DELETE(id,req.user.role,req.user.id)
     if(deletedCourse)
-    return res.status(200).json({msg:"Ok"});
+    return res.status(200).json({msg:"deleted done"});
     return res.status(404).json({msg:"No Course OR you are not Authoize to delete"});
   
   } catch (err) {
@@ -59,7 +59,7 @@ const __updateCourse = async (req, res, next) => {
 	try {
 		let id = req.params.id;
 		let newCourseData = req.body;
-		await courseCollection.UPDATE(id, newCourseData);
+		await courseCollection.UPDATE(id, newCourseData,req.user.id);
 		let course = await courseCollection.READ_ONE(id,
 			[
 				{

@@ -1,13 +1,15 @@
 /* eslint-disable*/
 const express = require('express');
 const { __getqustions, __addqustion, __deletequstion, __updatequstion } = require('../../../../controller/quiz/questionCRUD');
-
+const __isTeacher=require('../../../../middlewares/__userMiddlewares/__isTeacher')
+const __isAuth=require('../../../../middlewares/__userMiddlewares/__isAuth')
+const __isBlocked=require('../../../../middlewares/__userMiddlewares/__isBlocked')
 const router = express.Router();
 
 router.get('/', __getqustions );
-router.post('/addquestion',__addqustion);
-router.delete('/deletequestion/:id',__deletequstion );
-router.put('/updatequestion/:id',__updatequstion);
+router.post('/addquestion',__isAuth,__isBlocked,__isTeacher,__addqustion);
+router.delete('/deletequestion/:id',__isAuth,__isBlocked,__isTeacher,__deletequstion );
+router.put('/updatequestion/:id',__isAuth,__isBlocked,__isTeacher,__updatequstion);
 
 
 module.exports = router;

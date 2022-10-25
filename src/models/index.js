@@ -16,6 +16,7 @@ const Quesion = require("./quizFolder/quizQuestion.model");
 const Option = require("./quizFolder/quizQuestionOption.model");
 const CRUD = require('../collectionsAtAll/DB_CRUD')
 const history=require('./history.model')
+const CommentReport= require('./commentReport.model')
 
 var config;
 if (process.env.DATABASE_URL) {
@@ -54,7 +55,8 @@ const AnnouncementDB = Announcements(db,DataTypes);
 const QuizDB = Quizs(db, DataTypes);
 const QuestionDB = Quesion(db, DataTypes);
 const OptionDB = Option(db, DataTypes);
-const HistoryDB=history(db,DataTypes)
+const HistoryDB =history(db,DataTypes)
+const CommentReportDB =CommentReport(db,DataTypes)
 
 // RelationShip
 
@@ -139,6 +141,7 @@ CoursesDB.hasMany(VideosDB, {
 });
 VideosDB.belongsTo(CoursesDB, {
   foreignKey: "courseID",
+  onDelete: "cascade",//delete after test
 });
 
 // Users One-to-Many video
@@ -153,7 +156,7 @@ VideosDB.belongsTo(UsersDB, {
 });
 
 
-//
+//video with report video
 VideosDB.hasMany(VideosReportsDB, {
   foreignKey: "videoID",
   onDelete: "cascade",
@@ -162,6 +165,7 @@ VideosDB.hasMany(VideosReportsDB, {
 VideosReportsDB.belongsTo(VideosDB, {
   foreignKey: "videoID",
 });
+
 
 // ************
 
@@ -174,6 +178,24 @@ VideosReportsDB.belongsTo(UsersDB, {
   foreignKey: "userID",
 });
 
+//comment report with comment
+CommentDB.hasMany(CommentReportDB, {
+	foreignKey: "commentID",
+	onDelete: "cascade",
+  });
+  
+  CommentReportDB.belongsTo(CommentDB, {
+	foreignKey: "commentID",
+  });
+//user with comment report
+UsersDB.hasMany(CommentReportDB, {
+	foreignKey: "userID",
+	onDelete: "cascade",
+  });
+  
+  CommentReportDB.belongsTo(UsersDB, {
+	foreignKey: "userID",
+  });
 // Users One-to-Many feedbak
 
 UsersDB.hasMany(FeedbackDB, {
@@ -193,7 +215,7 @@ FeedbackDB.hasMany(ReplayDB, {
 ReplayDB.belongsTo(FeedbackDB, {
   foreignKey: 'feedbackID',
 });
-// ********** 
+// course with files
 
 CoursesDB.hasMany(FilesDB, {
   foreignKey: 'courseID',
@@ -204,23 +226,23 @@ FilesDB.belongsTo(CoursesDB, {
 });
 
 
-VideosDB.hasMany(VideosReportsDB, {
-  foreignKey: 'videoID',
-  onDelete: "cascade",
-})
-VideosReportsDB.belongsTo(VideosDB, {
-  foreignKey: 'videoID',
-});
+// VideosDB.hasMany(VideosReportsDB, {
+//   foreignKey: 'videoID',
+//   onDelete: "cascade",
+// })
+// VideosReportsDB.belongsTo(VideosDB, {
+//   foreignKey: 'videoID',
+// });
 
 
 //whishList / Courses  one to many
-wishListDB.hasMany(CoursesDB, {
-	foreignKey: 'courseID',
-  })
-  CoursesDB.belongsTo(wishListDB, {
-	foreignKey: 'courseID',
+// wishListDB.hasMany(CoursesDB, {
+// 	foreignKey: 'wishListID',
+//   })
+//   CoursesDB.belongsTo(wishListDB, {
+// 	foreignKey: 'wishListID',
   
-  })
+//   })
   
   //whishList / users  one to one
 
@@ -231,23 +253,6 @@ wishListDB.hasMany(CoursesDB, {
 	foreignKey: 'userID',
   });
 
-//historyList/ video one to many
-HistoryDB.hasMany(VideosDB,{
-	foreignKey:'videoID'
-});
-
-VideosDB.belongsTo(HistoryDB,{
-    foreignKey:'videoID'
-});
-
-//historyList / course one to many
-HistoryDB.hasMany(CoursesDB,{
-	foreignKey:'courseID'
-});
-
-CoursesDB.belongsTo(HistoryDB,{
-    foreignKey:'courseID'
-});
 
 
 
@@ -266,6 +271,8 @@ const questionCollection = new CRUD(QuestionDB);
 const optionCollection = new CRUD(OptionDB);
 const userCollection = new CRUD(UsersDB);
 const announcementCollection = new CRUD(AnnouncementDB);
+const CommentreportsCollection = new CRUD(CommentReportDB);
+
 
 module.exports = {
   db,
@@ -283,6 +290,7 @@ module.exports = {
   courseCollection,
   reportsCollection,
   filesCollection,
+  CommentreportsCollection,
   UsersDB,
   VideosDB,
   CoursesDB,
@@ -293,6 +301,7 @@ module.exports = {
   announcementCollection,
   wishListDB,
   AnnouncementDB,
-  HistoryDB
+  HistoryDB,
+  CommentReportDB
 
 };

@@ -20,10 +20,10 @@ const __addComment = async (req, res, next) => {
 const __deleteComment = async (req, res, next) => {
   try {
     let id = req.params.id;
-    let deletedComment = await commentCollection.DELETE(id);
+    let deletedComment = await commentCollection.DELETE(id,req.user.role,req.user.id);
     if(deletedComment)
-      return res.status(200).json({msg:"Ok"});
-      return res.status(404).json({msg:"No Comment"});
+      return res.status(200).json({msg:"deleted done"});
+      return res.status(404).json({msg:"operation delete not working"});
     
   } catch (err) {
     next(`commentsCRUD.js ~ line 30  ${err}`);
@@ -52,7 +52,7 @@ const __updateComment = async (req, res, next) => {
   try {
     const id = req.params.id;
     const newComment = req.body;
-    const updated = await commentCollection.UPDATE(id,newComment)
+    const updated = await commentCollection.UPDATE(id,newComment,req.user.id)
     if(updated)
      return res.status(200).json({ updated });
      return res.status(404).json({ msg : "there is no Comment" });

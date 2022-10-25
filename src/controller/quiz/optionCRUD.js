@@ -2,6 +2,7 @@
 const { optionCollection } = require("../../models");
 
 const __addoption = async (req, res, next) => {
+	let {type}=req.body;
   try {
     
     let createdoption = await optionCollection.CREATE({...req.body})

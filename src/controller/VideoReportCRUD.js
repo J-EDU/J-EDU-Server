@@ -26,10 +26,10 @@ const __getReports = async (req, res, next) => {
 
     try {
       let id = req.params.id;
-      let deletedReport = await reportsCollection.DELETE(id);
+      let deletedReport = await reportsCollection.DELETE(id,req.user.role,req.user.id);
       if(deletedReport)
-        return res.status(200).json({msg:"Ok"});
-        return res.status(404).json({msg:"No Comment"});
+        return res.status(200).json({msg:"deleted done"});
+        return res.status(404).json({msg:"delete CRUD not working"});
       
     } catch (err) {
       next(`commentsCRUD.js ~ line 35  ${err}`);
