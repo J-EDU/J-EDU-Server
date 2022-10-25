@@ -23,8 +23,7 @@ const __login = async (req, res, next) => {
         return;
       }
     } catch (error) {
-      next({ message: `Error happend in signin ${error}` });
-    }
+      next(`Error happend in user ${error}`);    }
 };
 
 const __signup = async (req, res, next) => {
@@ -56,8 +55,7 @@ const __signup = async (req, res, next) => {
         }
    
     } catch (error) {
-      next({message:`Error happend in Singup ${error}`})
-    }
+      next(`Error happend in user ${error}`);    }
 };
 
 const __updatePassword = async (req, res, next) => {
@@ -78,14 +76,16 @@ const __updatePassword = async (req, res, next) => {
 };
 
 const __updateUser= async (req, res, next) => {
-    try {
+  try {
 		let id = req.user.id;
-		let newUserData = req.body;  
-		await UsersDB.update(newUserData, { where: { id } });
-		let updatedUser = await UsersDB.findOne({ where: { id } });
-		res.status(200).send(updatedUser);
+		let newUserData = req.body;
+		await userCollection.UPDATE(id, newUserData);
+		let user = await userCollection.READ_ONE(id)
+		if (user)
+			return res.status(200).json({ user });
+			return res.status(201).json({ msg: "there is no Courses" });
 	} catch (err) {
-		next(`Error inside updatedUser  function : ${ err }`);
+		next(`User CRUD.js ~ line 35  ${err}`)
 	}
 };
 

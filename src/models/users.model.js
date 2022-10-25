@@ -3,20 +3,16 @@
 const JWT = require("jsonwebtoken")
 
 const UsersModel = (sequelize,DataTypes)=>sequelize.define('users', {
-  id: {
-    type: DataTypes.UUID,
-    defaultValue: DataTypes.UUIDV4,
-    primaryKey: true,
-  },
-  email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      isEmail : true
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true,
     },
-    gender: {
-      type:   DataTypes.ENUM,
-      values: ['Male', 'Female']
-    },
+    email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        isEmail : true
+      },
     password: {
       type: DataTypes.STRING,
       allowNull: false
@@ -33,13 +29,26 @@ const UsersModel = (sequelize,DataTypes)=>sequelize.define('users', {
       type: DataTypes.DATE,
       allowNull: false
     },
+    role: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: 'user',
+      validate: {
+          customValidator: (value) => {
+              const enums = ['user', 'admin']
+              if (!enums.includes(value)) {
+                  throw new Error('not a valid option')
+              }
+          }
+      }
+    },
     isBLocked: {
       type: DataTypes.BOOLEAN,
       defaultValue : false,
     },
-    role: {
-      type: DataTypes.STRING,
-      defaultValue : "student",
+    isTeacher: {
+      type: DataTypes.BOOLEAN,
+      defaultValue : false,
       allowNull:false
     },
     cloudinary_id: {
@@ -53,6 +62,14 @@ const UsersModel = (sequelize,DataTypes)=>sequelize.define('users', {
     isAuth: {
       type: DataTypes.BOOLEAN,
       defaultValue : false,
+    },
+    experience:{
+      type: DataTypes.STRING,
+      defaultValue : '',
+    },
+    about:{
+      type: DataTypes.STRING,
+      defaultValue : '',
     },
 
     token: {

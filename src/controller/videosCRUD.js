@@ -6,6 +6,7 @@ const cloudinary = new CloudinaryClass()
 const __addVideo = async (req, res, next) => {
   try {
     if(req.files){
+      console.log(req.files.video.tempFilePath)
     const result = await cloudinary.upload_video(req.files.video.tempFilePath);
     const video = await videoCollection.CREATE({...req.body,URL :result.url,cloudinary_id:result.public_id ,userID:req.user.id});
      res.status(200).send(video);

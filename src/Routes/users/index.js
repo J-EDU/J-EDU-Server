@@ -10,6 +10,7 @@ const __isAuth = require('../../middlewares/__userMiddlewares/__isAuth');
 const __makeBlock = require('../../middlewares/__userMiddlewares/__makeBlock');
 const __makeAuth = require('../../middlewares/__userMiddlewares/__makeAuth');
 const __updateAvatar = require('../../middlewares/__userMiddlewares/__updateAvatar');
+const __makeTeacher = require('../../middlewares/__userMiddlewares/__makeTeacher');
 
 
 
@@ -20,6 +21,7 @@ router.post('/signup',__checkRegx,__signup );
 router.post('/login',__isBlocked,__login );
 router.put('/updateUser',__isBlocked ,__isAuth,__updateUser );
 router.put('/updateAvatar',__isAuth,__updateAvatar);
+router.put('/maketeacher',__isAuth,__makeTeacher);
 router.put('/updatepassword',__updatePassword );
 router.get('/getAllTeachers',__getAllTeacher);
 router.get('/getAllBlocked',__isBlocked ,__isAuth,__isAdmin,__getAllBlocked);
