@@ -9,14 +9,13 @@ const whishListModel = (sequelize, DataTypes) =>
       },
       userID: {
         type: DataTypes.UUID,
-		allowNull: false,
+		    allowNull: false,
         references: {
           model: "users",
           key: "id",
 
         },
       },
-
       courseID: {
         type: DataTypes.UUID,
         references: {

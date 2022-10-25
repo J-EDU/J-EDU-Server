@@ -14,6 +14,7 @@ const Announcements = require("./announcement.model");
 const Quizs = require("./quizFolder/quizs.model");
 const Quesion = require("./quizFolder/quizQuestion.model");
 const Option = require("./quizFolder/quizQuestionOption.model");
+const watchHistory = require("./watchHistory.model");
 const CRUD = require('../collectionsAtAll/DB_CRUD')
 
 var config;
@@ -53,6 +54,7 @@ const AnnouncementDB = Announcements(db,DataTypes);
 const QuizDB = Quizs(db, DataTypes);
 const QuestionDB = Quesion(db, DataTypes);
 const OptionDB = Option(db, DataTypes);
+const WatchhistoryDB = watchHistory(db, DataTypes);
 
 // RelationShip
 
@@ -150,6 +152,24 @@ VideosDB.belongsTo(UsersDB, {
   foreignKey: "userID",
 });
 
+UsersDB.hasMany(WatchhistoryDB, {
+  foreignKey: "userID",
+  onDelete: "cascade",
+});
+
+WatchhistoryDB.belongsTo(UsersDB, {
+  foreignKey: "userID",
+});
+
+CoursesDB.hasMany(WatchhistoryDB, {
+  foreignKey: "courseID",
+  onDelete: "cascade",
+});
+
+WatchhistoryDB.belongsTo(CoursesDB, {
+  foreignKey: "courseID",
+});
+
 
 //
 VideosDB.hasMany(VideosReportsDB, {
@@ -218,7 +238,7 @@ wishListDB.hasMany(CoursesDB, {
   CoursesDB.belongsTo(wishListDB, {
 	foreignKey: 'courseID',
   
-  })
+ })
   
   //whishList / users  one to one
   UsersDB.hasOne(wishListDB, {
@@ -251,6 +271,7 @@ module.exports = {
   questionCollection,
   optionCollection,
   OptionDB,
+  WatchhistoryDB,
   feedbackCollection,
   quizCollection,
   commentCollection,

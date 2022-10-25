@@ -17,7 +17,7 @@ const certeficate = require("./certeficate");
 const __isBlocked = require('../middlewares/__userMiddlewares/__isBlocked');
 const __isAuth = require('../middlewares/__userMiddlewares/__isAuth');
 const announcement = require("./announcement");
-const category = require("./category")
+const watchHistory = require("./watchHistory")
 
 
 
@@ -39,6 +39,7 @@ router.use('/wishList',whishList)
 router.use('/announcement',announcement )
 router.use('/quiz',quiz )
 router.use('/certificate',certeficate )
+router.use('/watchhistory',watchHistory )
 
 
 module.exports = router;

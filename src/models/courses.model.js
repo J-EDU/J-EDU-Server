@@ -20,7 +20,7 @@ const CoursesModel = (sequelize, DataTypes) =>
       category: {
         type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: '0',
+        defaultValue: 'IT',
         validate: {
             customValidator: (value) => {
                 const enums = ['IT', 'MATH', 'HISTORY']

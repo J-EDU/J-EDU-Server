@@ -1,5 +1,5 @@
 /* eslint-disable*/
-const { VideosDB, CommentDB, courseCollection, FilesDB, QuestionDB, QuizDB } = require("../models");
+const { VideosDB, CommentDB, courseCollection, FilesDB, QuestionDB, QuizDB, UsersDB, CoursesDB } = require("../models");
 
 const __addCourse = async (req, res, next) => {
 	try {
@@ -31,14 +31,15 @@ const __addCourse = async (req, res, next) => {
 
 		tag = newArr
 		console.log(tag)
-		let createdCourse = await courseCollection.CREATE({ ...req.body, userID: req.user.id, tag })
+		let course = await CoursesDB.create({ ...req.body, userID: req.user.id, tag })
+		// let createdCourse = await courseCollection.CREATE({ ...req.body, userID: req.user.id, tag })
 
-		res.status(201).json(createdCourse);
+		res.status(201).json(course);
 	} catch (err) {
+		console.log("Hassan ~ file: courseCRUD.js ~ line 38 ~ err", err)
 		next(`Error courseCRUD.js ~ line 11 : ${err}`);
 	}
 };
-
 
 
 const __deleteCourse = async (req, res, next) => {
