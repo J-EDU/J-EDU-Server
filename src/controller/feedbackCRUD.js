@@ -25,8 +25,10 @@ const __addFeedback= async (req, res, next) => {
   const __deleteFeedback = async (req, res, next) => {
     try {
       let id = req.params.id;
-      await feedbackCollection.DELETE(id);
-      res.status(200).json({ message : "Ok" });
+     const deletedFeed= await feedbackCollection.DELETE(id,req.user.role,req.user.id);
+	 if(deletedFeed)
+     return  res.status(200).json({ message : "deleted done" });
+	  return res.status(404).json({msg:"operation delete not working"});
     } catch (err) {
       next(`Error inside deleteFeedback function : ${err}`);
     }
@@ -53,12 +55,13 @@ const __addFeedback= async (req, res, next) => {
   const __updateFeedback = async (req, res, next) => {
     try {
       let id = req.params.id;
-      const { text } = req.body;
+      const  text  = req.body;
   
-      // let findFeedBack = await FeedbackDB.findOne({ where: {id } });
-      // let item =await FeedbackDB.update({ ...findFeedBack, text }, { where: { id } });
-      const updated = await feedbackCollection.UPDATE(id,text)
-      res.status(200).json({ item : updated});
+    //   let findFeedBack = await FeedbackDB.findOne({ where: {id } });
+    //   let item =await FeedbackDB.update({ ...findFeedBack, text }, { where: { id } });
+      const updated = await feedbackCollection.UPDATE(id,text,req.user.id)
+	  if(updated)
+     return res.status(200).json({ item:updated });
     } catch (err) {
       console.log("Text ~ err", err);
   

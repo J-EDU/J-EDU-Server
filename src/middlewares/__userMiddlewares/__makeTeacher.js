@@ -1,19 +1,24 @@
 /*eslint-disable */
 
-const {userCollection } = require("../../models");
+const { UsersDB } = require("../../models");
 
 const __makeTeacher = async (req, res, next) => {
-  try {
-		let id = req.user.id;
-		let newUserData = req.body;
-		await userCollection.UPDATE(id, newUserData);
-		let user = await userCollection.READ_ONE(id)
-		if (user)
-			return res.status(200).json({ user });
-			return res.status(201).json({ msg: "there is no Courses" });
-	} catch (err) {
-		next(`User CRUD.js ~ line 35  ${err}`)
-	}
+    try {
+        const { id } = req.body;
+      
+    
+        let findUser = await UsersDB.findOne({ where: { id: id } });
+        let isTeacherUbdate = !findUser.isTeacher; 
+        console.log("Hassan ~ isTeacher", isTeacherUbdate)
+        await UsersDB.update({ ...findUser,isTeacher:isTeacherUbdate }, { where: { id } });
+    
+        res.status(200).json({ msg: "updated successfully" });
+      } catch (err) {
+        console.log("IsBlocked ~ err", err);
+    
+        next(`Error inside make Teacher function : ${err}`);
+      }
 };
 
 module.exports = __makeTeacher
+

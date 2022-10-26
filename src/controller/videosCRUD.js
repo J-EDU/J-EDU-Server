@@ -23,7 +23,7 @@ const __deleteVideo = async (req, res, next) => {
   try {
     const id = req.params.id;
     const video = await videoCollection.READ_ONE(id);
-   await videoCollection.DELETE(id);
+   await videoCollection.DELETE(id,req.user.role,req.user.id);
     if (video) {
      const result = await cloudinary.delete_video(video.cloudinary_id)
       res.status(200).json({ result });
