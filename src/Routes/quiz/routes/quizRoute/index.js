@@ -7,9 +7,9 @@ const __isBlocked = require('../../../../middlewares/__userMiddlewares/__isBlock
 const router = express.Router();
 
 router.get('/',__isAuth, __isBlocked,__getQuizs );
-router.post('/addQuiz',__isAuth,__isBlocked,__isTeacher,__addQuiz);
-router.delete('/deleteQuiz/:id',__isAuth,__isBlocked,__isTeacher,__deleteQuiz );
-router.put('/updateQuiz/:id',__isAuth,__isBlocked,__isTeacher,__updateQuiz );
+router.post('/addQuiz',__isAuth,__isBlocked,__addQuiz);
+router.delete('/deleteQuiz/:id',__isAuth,__isBlocked,__deleteQuiz );
+router.put('/updateQuiz/:id',__isAuth,__isBlocked,__updateQuiz );
 
 
 module.exports = router;

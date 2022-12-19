@@ -7,9 +7,9 @@ const __isAuth=require('../../../../middlewares/__userMiddlewares/__isAuth')
 const router = express.Router();
 
 router.get('/', __getoptions );
-router.post('/addOption',__isAuth,__isTeacher,__addoption);
-router.delete('/deleteOption/:id',__isAuth,__isTeacher,__deleteoption );
-router.put('/updateOption/:id',__isAuth,__isTeacher,__updateoption);
+router.post('/addOption',__isAuth,__addoption);
+router.delete('/deleteOption/:id',__isAuth,__deleteoption );
+router.put('/updateOption/:id',__isAuth,__updateoption);
 
 
 module.exports = router;

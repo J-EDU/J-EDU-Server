@@ -8,8 +8,8 @@ const __isTeacher=require('../../middlewares/__userMiddlewares/__isTeacher')
 const router = express.Router();
 
 router.get('/', ___isAuth,__isBlocked,__getVideos );
-router.post('/addVideo',___isAuth,__isBlocked,__isTeacher,__addVideo);
-router.delete('/deleteVideo/:id',___isAuth,__isBlocked,__isTeacher,__deleteVideo );
+router.post('/addVideo',___isAuth,__isBlocked,__addVideo);
+router.delete('/deleteVideo/:id',___isAuth,__isBlocked,__deleteVideo );
 
 
 module.exports = router;
