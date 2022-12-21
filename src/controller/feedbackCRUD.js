@@ -1,4 +1,4 @@
-/*eslint-disable*/
+/eslint-disable/
 const { FeedbackDB, UsersDB, ReplayDB,feedbackCollection } = require("../models");
 
 
