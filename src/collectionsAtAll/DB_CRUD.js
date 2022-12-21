@@ -52,7 +52,6 @@ class CRUD {
         return null;
       }
     } catch (err) {
-      console.log("Hassan ~ file: DB_CRUD.js ~ line 53 ~ err", err)
       throw new Error(err);
     }
   }

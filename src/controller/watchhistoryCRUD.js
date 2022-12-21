@@ -71,10 +71,16 @@ const __updateWatchhistory = async (req, res, next) => {
       },
     });
 
-    if (!history)
-      return res
-        .status(404)
-        .json({ msg: "there is no Watch hisroty with this data " });
+          if(history){
+            const count = await VideosDB.findAndCountAll({
+              where: {
+                courseID: history.courseID
+              }
+            });
+            console.log("Hassan ~ file: watchhistoryCRUD.js ~ line 84 ~ history.videos.length <= count.count", history.videos.length <= count.count)
+          
+            if(history.videos.length > count.count){
+
 
     if (history) {
       const count = await VideosDB.findAndCountAll({

@@ -1,5 +1,5 @@
 /* eslint-disable*/
-const { UsersDB } = require("../models");
+const { UsersDB, userCollection } = require("../models");
 const cloudinaryClass = require("../collectionsAtAll/CloudinaryClass");
 const bcrypt = require("bcrypt");
 const base = require("base-64");
@@ -35,7 +35,7 @@ const __signup = async (req, res, next) => {
 
         const user =await UsersDB.findOne({ where: { email } });
         if(!user){
-          let url = "https://res.cloudinary.com/dybwswkzr/image/upload/v1666480803/Avatars/noPic_cjpw0p.png";
+          let url = "https://tndsoft.in/assets/images/nouser.jpg";
           let public_id = null;
           if(req.files){
             const result= await cloudinary.upload_avatar(req.files.image.tempFilePath)
@@ -59,7 +59,8 @@ const __signup = async (req, res, next) => {
 };
 
 const __updatePassword = async (req, res, next) => {
-    try {
+  try {
+      
         let id = req.params.id;
         const { password } = req.body;
         password = await bcrypt.hash(password, 10);
@@ -75,6 +76,37 @@ const __updatePassword = async (req, res, next) => {
       }
 };
 
+const __getUserbyID = async (req, res, next) => {
+ try {
+   let id = req.params.id;
+		let user = await userCollection.READ_ONE(id)
+		if (user)
+			return res.status(200).json({ user });
+			return res.status(201).json({ msg: "there is no user" });
+	} catch (err) {
+		next(`User CRUD.js ~ line 35  ${err}`)
+	}
+};
+
+const __updateUserbyID = async (req, res, next) => {
+  try {
+    let id = req.params.id;
+    console.log("Hassan ~ file: userAuthCRUD.js:82 ~ id", id)
+    let newUserData = req.body;
+    let { password } = req.body;
+    password = await bcrypt.hash(password, 10);
+    
+    await userCollection.UPDATE(id, { ...newUserData, password });
+    let user = await userCollection.READ_ONE(id)
+    // let user = await UsersDB.update(id)
+    if (user)
+      return res.status(200).json({ user });
+    return res.status(201).json({ msg: "there is no user" });
+  } catch (err) {
+    next(`User CRUD.js ~ line 35  ${err}`)
+  }
+};
+
 const __updateUser= async (req, res, next) => {
   try {
 		let id = req.user.id;
@@ -83,7 +115,7 @@ const __updateUser= async (req, res, next) => {
 		let user = await userCollection.READ_ONE(id)
 		if (user)
 			return res.status(200).json({ user });
-			return res.status(201).json({ msg: "there is no Courses" });
+			return res.status(201).json({ msg: "there is no user" });
 	} catch (err) {
 		next(`User CRUD.js ~ line 35  ${err}`)
 	}
@@ -93,5 +125,7 @@ module.exports = {
   __login,
   __signup,
   __updatePassword,
-  __updateUser
+  __updateUser,
+  __updateUserbyID,
+  __getUserbyID
 };
