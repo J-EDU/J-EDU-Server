@@ -79,7 +79,7 @@ const __updateWatchhistory = async (req, res, next) => {
             });
             console.log("Hassan ~ file: watchhistoryCRUD.js ~ line 84 ~ history.videos.length <= count.count", history.videos.length <= count.count)
           
-            if(history.videos.length >= count.count){
+            if(history.videos.length > count.count){
 
               await WatchhistoryDB.update(
               {

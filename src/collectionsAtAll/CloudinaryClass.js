@@ -56,7 +56,6 @@ class CloudinaryClass{
 
         )
         const src = result.split("'")
-        console.log("Hassan ~ file: CloudinaryClass.js ~ line 48 ~ src", src)
 
           return src[1]
     

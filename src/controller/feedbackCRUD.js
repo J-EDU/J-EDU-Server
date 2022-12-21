@@ -41,6 +41,9 @@ const __addFeedback= async (req, res, next) => {
         {
           model: ReplayDB,
         },
+        {
+          model: UsersDB,
+        },
       ])
     
       res.feedback = feedback;
@@ -57,8 +60,6 @@ const __addFeedback= async (req, res, next) => {
       let id = req.params.id;
       const  text  = req.body;
   
-    //   let findFeedBack = await FeedbackDB.findOne({ where: {id } });
-    //   let item =await FeedbackDB.update({ ...findFeedBack, text }, { where: { id } });
       const updated = await feedbackCollection.UPDATE(id,text,req.user.id)
 	  if(updated)
      return res.status(200).json({ item:updated });
